@@ -15,8 +15,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell" do |p|
     p.path = "provision-user.sh"
     p.privileged = false
-    p.env = { "SSH_PRIVATE_KEY" => ENV.fetch('SSH_PRIVATE_KEY') }
   end
+
+  config.ssh.forward_agent = true
 end
 
 def num_cpus

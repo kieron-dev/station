@@ -25,7 +25,6 @@ install_vim_plug() {
 clone_git_repos() {
   mkdir ~/workspace
   pushd ~/workspace
-    ssh-add "$SSH_PRIVATE_KEY"
     git clone git@github.com:eirini-forks/eirini-ci.git
     git clone git@github.com:eirini-forks/eirini-home.git
     git clone git@github.com:eirini-forks/eirini-private-config.git
@@ -33,7 +32,6 @@ clone_git_repos() {
     git clone git@github.com:eirini-forks/eirini-staging.git
     git clone git@github.com:eirini-forks/eirini-station.git
     git clone git@github.com:eirini-forks/eirini.git
-    ssh-add -D
   popd
 }
 
