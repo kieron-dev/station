@@ -11,9 +11,9 @@ main() {
 }
 
 install_ohmyzsh() {
-  wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+  [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   # Delete default .zshrc to avoid stow conflicts
-  rm ~/.zshrc
+  rm -f ~/.zshrc
 }
 
 install_vim_plug() {
