@@ -4,6 +4,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = 'eirini-station'
+    vb.memory = 8192
+    vb.cpus = 4
 
     vb.memory = (mem_total_mb * 0.8).round
     vb.cpus = num_cpus
