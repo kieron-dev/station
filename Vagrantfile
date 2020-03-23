@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--uartmode1", "file", "./ttyS0.log"]
   end
 
+  config.vm.network "public_network", bridge: [
+    "en0: Wi-Fi (AirPort)",
+  ]
 
   config.vm.provision "shell", path: "provision.sh"
 
