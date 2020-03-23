@@ -6,8 +6,10 @@ main() {
   install_vim_plug
   clone_git_repos
   configure_dotfiles
+  install_vim_plugins
   install_misc_tools
   compile_authorized_keys
+  switch_to_zsh
 }
 
 install_ohmyzsh() {
@@ -73,11 +75,21 @@ go_get() {
 }
 
 compile_authorized_keys() {
-  rm -f "$HOME/.ssh/authorized_keys"
+  local authorized_keys keys key
+  authorized_keys="$HOME/.ssh/authorized_keys"
+
   while read -r gh_name; do 
     key=$(curl -sL "https://api.github.com/users/$gh_name/keys" | jq -r ".[0].key")
     echo "$key $gh_name" >> "$HOME/.ssh/authorized_keys"
   done < "$HOME/workspace/eirini-home/team-github-ids"
+
+  # remove duplicate keys
+  keys=$(cat "$authorized_keys")
+  echo "$keys" | sort | uniq > "$authorized_keys"
+}
+
+switch_to_zsh() {
+  sudo chsh -s /bin/zsh vagrant
 }
 
 main
