@@ -2,27 +2,26 @@
 set -euo pipefail
 
 main(){
-  apt update
+  apt-get update
 
   setup_locale
   install_packages
-  install_docker
+  install_nodejs
   install_nvim
   install_ibmcloud_cli
   install_gcloud_cli
-  install_nodejs
   install_golang
   install_misc_tools
 }
 
 setup_locale(){
-  apt -y install locales
+  apt-get -y install locales
   locale-gen en_US.UTF-8
   update-locale LANG=en_US.UTF-8
 }
 
 install_packages(){
-  apt -y install \
+  apt-get -y install \
     apt-transport-https \
     autoconf \
     automake \
@@ -63,18 +62,24 @@ install_packages(){
 
 install_golang(){
   mkdir -p /usr/local/go
-  curl -sL "https://dl.google.com/go/go1.14.linux-amd64.tar.gz" | tar xz -C /usr/local/go
+  curl -sL "https://dl.google.com/go/go1.14.linux-amd64.tar.gz" | tar xz -C "/usr/local"
 }
 
-install_docker() {
-  curl -sSL https://get.docker.com/ | sh
+install_nodejs(){
+  curl -sL https://deb.nodesource.com/setup_13.x | bash -
+  apt-get -y install nodejs
 }
 
 install_nvim(){
-  apt -y install neovim
+  add-apt-repository ppa:neovim-ppa/unstable
+  apt-get update
+  apt-get -y install neovim
 
   pip3 install --upgrade pip 
-  pip3 install --user neovim
+  pip3 install --upgrade neovim
+  npm install -g neovim
+  gem install neovim --user-install
+
 }
 
 install_ibmcloud_cli(){
@@ -87,13 +92,8 @@ install_gcloud_cli(){
   # Import the Google Cloud Platform public key
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
   # Update the package list and install the Cloud SDK
-  apt update
-  apt -y install google-cloud-sdk
-}
-
-install_nodejs(){
-  curl -sL https://deb.nodesource.com/setup_13.x | bash -
-  apt -y install nodejs
+  apt-get update
+  apt-get -y install google-cloud-sdk
 }
 
 install_misc_tools(){
