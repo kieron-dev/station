@@ -4,6 +4,7 @@ set -euo pipefail
 main(){
   apt-get update
 
+  disable_ipv6
   setup_locale
   install_packages
   install_nodejs
@@ -12,6 +13,11 @@ main(){
   install_gcloud_cli
   install_golang
   install_misc_tools
+}
+
+disable_ipv6() {
+  sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+  sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 }
 
 setup_locale(){
