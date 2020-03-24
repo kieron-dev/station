@@ -62,7 +62,7 @@ git_clone() {
 
 configure_dotfiles() {
   pushd "$HOME/workspace/eirini-home"
-    git checkout docker
+    git checkout vagrant
     ./install.sh
   popd
 }
