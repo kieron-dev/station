@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "public_network", bridge: [
     "en0: Wi-Fi (AirPort)",
+    "en0: Wi-Fi (Wireless)",
   ]
 
   config.vm.provision "shell", path: "provision.sh"
