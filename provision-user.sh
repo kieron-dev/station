@@ -4,6 +4,7 @@ set -euo pipefail
 main() {
   install_ohmyzsh
   install_vim_plug
+  install_vim_extensions
   clone_git_repos
   configure_dotfiles
   install_vim_plugins
@@ -21,6 +22,13 @@ install_ohmyzsh() {
 install_vim_plug() {
   curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+install_vim_extensions() {
+  sudo npm install -g neovim
+  pip3 install --upgrade pip
+  pip3 install --upgrade neovim
+  gem install neovim --user-install
 }
 
 clone_git_repos() {

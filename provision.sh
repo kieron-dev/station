@@ -80,12 +80,6 @@ install_nvim(){
   add-apt-repository ppa:neovim-ppa/unstable
   apt-get update
   apt-get -y install neovim
-
-  pip3 install --upgrade pip 
-  pip3 install --upgrade neovim
-  npm install -g neovim
-  gem install neovim --user-install
-
 }
 
 install_ibmcloud_cli(){
@@ -112,14 +106,3 @@ install_misc_tools(){
 }
 
 main
-
-
-#TODO:
-#- Make sure all vim plugins are installed during the docker build phase
-#- make sure colours are working
-#- group apt-installs as much as possible
-#- make pass work with local pass store
-#- Either use wget or curl, not both
-#- Tune mounted volumes persistence
-#- Integrate the clipboard of the vagrant box with the mac clipboard (so that we can use something like pbcopy)
-
