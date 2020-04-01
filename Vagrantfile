@@ -2,6 +2,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/eoan64"
   config.vm.hostname = "eirini-station"
 
+  config.vm.synced_folder "~/.gnupg", "/home/vagrant/.gnupg"
+  config.vm.synced_folder "~/.ngrok2", "/home/vagrant/.ngrok2"
+
   config.vm.provider "virtualbox" do |vb|
     vb.name = 'eirini-station'
     vb.memory = 8192

@@ -13,6 +13,7 @@ main(){
   install_gcloud_cli
   install_golang
   install_misc_tools
+  setup_pass
 }
 
 disable_ipv6() {
@@ -84,6 +85,7 @@ install_nvim(){
 
 install_ibmcloud_cli(){
   curl -sL https://ibm.biz/idt-installer | bash
+  ibmcloud plugin install kubernetes-service -f
 }
 
 install_gcloud_cli(){
@@ -103,6 +105,15 @@ install_misc_tools(){
   curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o /usr/bin/fly && chmod +x /usr/bin/fly
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-json-1.6.2-x86_64-linux.tar.bz2" | tar xvj -C /usr
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-lsp-server-1.0.5-x86_64-linux.tar.bz2" | tar xvj -C /usr
+}
+
+setup_pass() {
+  pass init eirini
+  ln -s ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
+}
+
+setup_helm_client() {
+  helm init --client-only
 }
 
 main
