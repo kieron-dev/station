@@ -14,6 +14,7 @@ main(){
   install_golang
   install_misc_tools
   setup_pass
+  setup_helm_client
 }
 
 disable_ipv6() {
@@ -105,11 +106,12 @@ install_misc_tools(){
   curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o /usr/bin/fly && chmod +x /usr/bin/fly
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-json-1.6.2-x86_64-linux.tar.bz2" | tar xvj -C /usr
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-lsp-server-1.0.5-x86_64-linux.tar.bz2" | tar xvj -C /usr
+  curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 }
 
 setup_pass() {
   pass init eirini
-  ln -s ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
+  ln -sfn ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
 }
 
 setup_helm_client() {
