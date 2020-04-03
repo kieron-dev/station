@@ -10,7 +10,6 @@ main() {
   install_vim_plugins
   install_misc_tools
   compile_authorized_keys
-  install_spaceship_zsh_theme
   switch_to_zsh
 }
 
@@ -95,21 +94,6 @@ compile_authorized_keys() {
   # remove duplicate keys
   keys=$(cat "$authorized_keys")
   echo "$keys" | sort | uniq > "$authorized_keys"
-}
-
-install_spaceship_zsh_theme() {
-  local zsh_custom
-  zsh_custom="$HOME/.oh-my-zsh/custom"
-
-  if [[ ! -d "$zsh_custom/themes/spaceship-prompt" ]]; then
-    git clone https://github.com/denysdovhan/spaceship-prompt.git "$zsh_custom/themes/spaceship-prompt"
-    ln -s "$zsh_custom/themes/spaceship-prompt/spaceship.zsh-theme" "$zsh_custom/themes/spaceship.zsh-theme"
-  fi
-
-  # pull down latest changes
-  pushd "$zsh_custom/themes/spaceship-prompt"
-    git pull --rebase
-  popd
 }
 
 switch_to_zsh() {

@@ -15,6 +15,7 @@ main(){
   install_misc_tools
   setup_pass
   setup_helm_client
+  install_pure_zsh_theme
 }
 
 disable_ipv6() {
@@ -116,6 +117,10 @@ setup_pass() {
 
 setup_helm_client() {
   helm init --client-only
+}
+
+install_pure_zsh_theme() {
+  npm install --global pure-prompt --allow-root --unsafe-perm=true
 }
 
 main
