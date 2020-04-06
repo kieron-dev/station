@@ -31,7 +31,14 @@ brew install gnupg
 brew cask install ngrok
 ```
 
+### Environment variables
 
+Our `Vagrantfile` requires the following environment variables to be defined:
+
+* `EIRINI_STATION_MEMORY`: the amount of memory to reserve for the VM, in KB.
+* `EIRINI_STATION_CPUS`: the number of CPUs the VM can use. This can safely be the total number of cores on your machine.
+
+Unfortunately these variables are needed for _every_ `vagrant` invocation (including `vagrant ssh`), so it's recommended to add them to your shell config.
 
 ## Provisioning the VM
 

@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = 'eirini-station'
-    vb.memory = 8192
-    vb.cpus = 4
+    vb.memory = ENV.fetch('EIRINI_STATION_MEMORY').to_i
+    vb.cpus = ENV.fetch('EIRINI_STATION_CPUS').to_i
 
     # workaround for slow boot (https://bugs.launchpad.net/cloud-images/+bug/1829625)
     vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
@@ -28,13 +28,4 @@ Vagrant.configure("2") do |config|
   end
 
   config.ssh.forward_agent = true
-end
-
-def num_cpus
-  require 'etc'
-  Etc.nprocessors
-end
-
-def mem_total_mb
-  8192
 end
