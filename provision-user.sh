@@ -9,6 +9,7 @@ main() {
   configure_dotfiles
   install_vim_plugins
   install_misc_tools
+  install_pure_zsh_theme
   compile_authorized_keys
   switch_to_zsh
 }
@@ -94,6 +95,11 @@ compile_authorized_keys() {
   # remove duplicate keys
   keys=$(cat "$authorized_keys")
   echo "$keys" | sort | uniq > "$authorized_keys"
+}
+
+install_pure_zsh_theme() {
+  mkdir -p "$HOME/.zsh"
+  git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 }
 
 switch_to_zsh() {

@@ -15,7 +15,6 @@ main(){
   install_misc_tools
   setup_pass
   setup_helm_client
-  install_pure_zsh_theme
   install_golangcilint
 }
 
@@ -118,10 +117,6 @@ setup_pass() {
 
 setup_helm_client() {
   helm init --client-only
-}
-
-install_pure_zsh_theme() {
-  npm install --global pure-prompt --allow-root --unsafe-perm=true
 }
 
 install_golangcilint() {
