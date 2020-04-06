@@ -21,6 +21,18 @@ Note: VirtualBox will try to install a kernel extension so you will have to go t
 brew cask install vagrant
 ```
 
+### Misc tools
+
+While the idea of the eirini-station VM is to provision the tools you will need for the daily work on Eirini there are some tools that you need
+to install on the host before you run the provision script:
+
+```
+brew install gnupg
+brew cask install ngrok
+```
+
+
+
 ## Provisioning the VM
 
 From the root of this repository execute the following commands
