@@ -16,6 +16,7 @@ main(){
   setup_pass
   setup_helm_client
   install_golangcilint
+  build_diff_highlight
 }
 
 disable_ipv6() {
@@ -121,6 +122,12 @@ setup_helm_client() {
 
 install_golangcilint() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.24.0
+}
+
+build_diff_highlight {
+  pushd /usr/share/doc/git/contrib/diff-highlight
+    make
+  popd
 }
 
 main
