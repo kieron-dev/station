@@ -1,11 +1,12 @@
 # eirini-station
-Common pairing environment for the Eirini Project
+
+Common pairing environment for the Eirini Project.
 
 # Installation
 
 ## Prerequisites
 
-In order to run the eirini-station VM you need to have the following tools installed
+In order to run the eirini-station VM you need to have the following tools installed.
 
 ### VirtualBox
 
@@ -31,6 +32,14 @@ brew install gnupg
 brew cask install ngrok
 ```
 
+You will also need to set your ngrok authentication token:
+
+```
+ngrok authtoken <your-token>
+```
+
+Visit [ngrok.com](ngrok.com) to see your token or create an account if you don't have one. 
+
 ### Environment variables
 
 Our `Vagrantfile` requires the following environment variables to be defined:
@@ -42,15 +51,15 @@ Unfortunately these variables are needed for _every_ `vagrant` invocation (inclu
 
 ## Provisioning the VM
 
-From the root of this repository execute the following commands
+First you'll need to install the `vagrant-vbguest` plugin, which takes care of installing and upgrading the VirtualBox guest additions on the VM:
 
 ```
 vagrant plugin install vagrant-vbguest
 ```
 
-If the above command takes too long and fails with an error like this one: `timed out (https://gems.hashicorp.com/specs.4.8.gz)` you probably need to turn ipv6 off by running `networksetup -setv6off Wi-Fi` and try again. To turn it back on you run `networksetup -setv6automatic Wi-Fi`
+If the above command takes too long and fails with an error like this one: `timed out (https://gems.hashicorp.com/specs.4.8.gz)` you probably need to turn ipv6 off by running `networksetup -setv6off Wi-Fi` and try again. To turn it back on you run `networksetup -setv6automatic Wi-Fi`.
 
-Make sure your github ssh key is loaded. Even if you are using a key from your `~/.ssh` dir you still need to load it into the ssh agent:
+Make sure your GitHub SSH key is loaded. Even if you are using a key from your `~/.ssh` dir you still need to load it into the SSH agent:
 
 ```
 ssh-add ~/.ssh/id_rsa
@@ -71,7 +80,7 @@ vagrant ssh
 ```
 
 Then you can setup an ngrok tunnel. There are alreay aliases to aid you in the process:
-1. Run `pmux`. This will open a tmux session called `pairing`
-1. Run `ngrok authtoken <your-token>`. Visit [ngrok.com](ngrok.com) to see your token or create an account if you don't have one. 
-1. Run `nginit`. This will setup the ngrok tunnel in a side tmux session called `ngrok`
-1. Run `lsgrok` and send the output to your pair. This is the command that will let them attach to your session.
+
+1. `pmux`: starts a tmux session called `pairing`
+1. `nginit`: starts an ngrok tunnel in a side tmux session called `ngrok`
+1. `lsgrok`: prints an SSH command to connect to your VM, send this to your pair!
