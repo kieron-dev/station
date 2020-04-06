@@ -16,6 +16,7 @@ main(){
   setup_pass
   setup_helm_client
   install_pure_zsh_theme
+  install_golangcilint
 }
 
 disable_ipv6() {
@@ -121,6 +122,10 @@ setup_helm_client() {
 
 install_pure_zsh_theme() {
   npm install --global pure-prompt --allow-root --unsafe-perm=true
+}
+
+install_golangcilint() {
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.24.0
 }
 
 main
