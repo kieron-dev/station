@@ -127,6 +127,7 @@ install_golangcilint() {
 build_diff_highlight() {
   pushd /usr/share/doc/git/contrib/diff-highlight
     make
+    chmod a+x diff-highlight
   popd
 }
 
