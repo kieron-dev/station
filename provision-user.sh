@@ -2,17 +2,34 @@
 set -exuo pipefail
 
 main() {
+  install_ibmcloud_cli
+  setup_helm_client
+  install_golangcilint
   install_ohmyzsh
   install_vim_plug
   install_vim_extensions
   clone_git_repos
   configure_dotfiles
+  setup_pass
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
   compile_authorized_keys
   init_pass_store
   switch_to_zsh
+}
+
+install_ibmcloud_cli(){
+  curl -sL https://ibm.biz/idt-installer | bash
+  ibmcloud plugin install kubernetes-service -f
+}
+
+setup_helm_client() {
+  helm init --client-only
+}
+
+install_golangcilint() {
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin" v1.24.0
 }
 
 install_ohmyzsh() {

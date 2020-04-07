@@ -9,13 +9,9 @@ main(){
   install_packages
   install_nodejs
   install_nvim
-  install_ibmcloud_cli
   install_gcloud_cli
   install_golang
   install_misc_tools
-  setup_pass
-  setup_helm_client
-  install_golangcilint
   build_diff_highlight
 }
 
@@ -110,19 +106,6 @@ install_misc_tools(){
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-json-1.6.2-x86_64-linux.tar.bz2" | tar xvj -C /usr
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-lsp-server-1.0.5-x86_64-linux.tar.bz2" | tar xvj -C /usr
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
-}
-
-setup_pass() {
-  pass init eirini
-  ln -sfn ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
-}
-
-setup_helm_client() {
-  helm init --client-only
-}
-
-install_golangcilint() {
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.24.0
 }
 
 build_diff_highlight() {
