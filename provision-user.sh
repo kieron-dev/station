@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -exuo pipefail
 
 main() {
   install_ohmyzsh
@@ -106,7 +106,15 @@ init_pass_store() {
 
 install_pure_zsh_theme() {
   mkdir -p "$HOME/.zsh"
-  git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+  local theme_dir
+  theme_dir="$HOME/.zsh/pure"
+  if [ ! -d "$theme_dir" ] ; then
+    git clone https://github.com/sindresorhus/pure.git "$theme_dir"
+  else
+    pushd "$theme_dir"
+      git pull -r
+    popd
+  fi
 }
 
 switch_to_zsh() {
