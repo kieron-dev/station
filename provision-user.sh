@@ -55,27 +55,32 @@ clone_git_repos() {
 
   mkdir -p "$HOME/workspace"
   pushd "$HOME/workspace"
-    git_clone git@github.com:cloudfoundry-incubator/eirini-ci.git
-    git_clone git@github.com:cloudfoundry-incubator/eirini-release.git
-    git_clone git@github.com:cloudfoundry-incubator/eirini-staging.git
-    git_clone git@github.com:cloudfoundry-incubator/eirini.git
-    git_clone git@github.com:cloudfoundry/eirini-private-config.git
-    git_clone git@github.com:eirini-forks/eirini-home.git
-    git_clone git@github.com:eirini-forks/eirini-station.git
+    git_clone "git@github.com:cloudfoundry-incubator/eirini-ci.git"
+    git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git"
+    git_clone "git@github.com:cloudfoundry-incubator/eirini-staging.git"
+    git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
+    git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
+    git_clone "git@github.com:eirini-forks/eirini-home.git"
+    git_clone "git@github.com:eirini-forks/eirini-station.git"
   popd
 }
 
 git_clone() {
-  local url path
+  local url path name
   url=$1
-  path=$(echo "$url" | sed 's/.git//g' | cut -d / -f 2)
+  path=${2:-""}
 
-  if [ -d "$HOME/workspace/$path" ]; then
+  if [ -z "$path" ]; then
+    name=$(echo "$url" | sed 's/.git//g' | cut -d / -f 2)
+    path="$HOME/workspace/$name"
+  fi
+
+  if [ -d "$path" ]; then
     echo "Repository $path already exists. Skipping git clone..."
     return
   fi
 
-  git clone "$url"
+  git clone "$url" "$path"
 }
 
 configure_dotfiles() {
@@ -85,16 +90,21 @@ configure_dotfiles() {
   popd
 }
 
+setup_pass() {
+  pass init eirini
+  ln -sfn ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
+}
+
 install_vim_plugins() {
   nvim --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
   PATH="$PATH:/usr/local/go/bin" nvim --headless +GoUpdateBinaries +qall
 }
 
 install_misc_tools() {
-  go_get github.com/onsi/gomega
-  go_get github.com/onsi/ginkgo/ginkgo
-  go_get github.com/maxbrunsfeld/counterfeiter
-  go_get github.com/masters-of-cats/concourse-flake-hunter
+  go_get "github.com/onsi/gomega"
+  go_get "github.com/onsi/ginkgo/ginkgo"
+  go_get "github.com/maxbrunsfeld/counterfeiter"
+  go_get "github.com/masters-of-cats/concourse-flake-hunter"
 }
 
 go_get() {
@@ -118,20 +128,15 @@ compile_authorized_keys() {
 init_pass_store() {
   mkdir -p "$HOME/.password-store"
   ln -s "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
-  pass init $(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")
+  pass init "$(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")"
 }
 
 install_pure_zsh_theme() {
   mkdir -p "$HOME/.zsh"
-  local theme_dir
-  theme_dir="$HOME/.zsh/pure"
-  if [ ! -d "$theme_dir" ] ; then
-    git clone https://github.com/sindresorhus/pure.git "$theme_dir"
-  else
-    pushd "$theme_dir"
-      git pull -r
-    popd
-  fi
+  git_clone "https://github.com/sindresorhus/pure.git" "$HOME/.zsh/pure"
+  pushd "$HOME/.zsh/pure"
+    git pull -r
+  popd
 }
 
 switch_to_zsh() {
