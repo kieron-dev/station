@@ -45,6 +45,7 @@ install_packages(){
     gnupg-agent \
     iputils-ping \
     jq \
+    lastpass-cli \
     libevent-dev \
     libncurses5-dev \
     libtool \
