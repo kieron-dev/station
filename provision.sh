@@ -64,6 +64,7 @@ install_packages(){
     tmux \
     unzip \
     wget \
+    xsel \
     zsh
 }
 
