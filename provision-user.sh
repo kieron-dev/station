@@ -11,6 +11,7 @@ main() {
   install_misc_tools
   install_pure_zsh_theme
   compile_authorized_keys
+  init_pass_store
   switch_to_zsh
 }
 
@@ -95,6 +96,12 @@ compile_authorized_keys() {
   # remove duplicate keys
   keys=$(cat "$authorized_keys")
   echo "$keys" | sort | uniq > "$authorized_keys"
+}
+
+init_pass_store() {
+  mkdir -p "$HOME/.password-store"
+  ln -s "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
+  pass init $(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")
 }
 
 install_pure_zsh_theme() {
