@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/eoan64"
-  config.vm.hostname = "eirini-station"
+  config.vm.hostname = "#{`hostname`[0..-2]}-eirini"
 
   config.vm.synced_folder "~/.gnupg", "/home/vagrant/.gnupg"
   config.vm.synced_folder "~/.ngrok2", "/home/vagrant/.ngrok2"

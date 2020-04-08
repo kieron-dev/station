@@ -13,6 +13,7 @@ main() {
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
+  install_tmux_plugin_manager
   compile_authorized_keys
   init_pass_store
   switch_to_zsh
@@ -35,6 +36,10 @@ install_ohmyzsh() {
   [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   # Delete default .zshrc to avoid stow conflicts
   rm -f "$HOME/.zshrc"
+}
+
+install_tmux_plugin_manager() {
+  git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
 install_vim_plug() {
