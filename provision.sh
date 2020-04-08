@@ -11,6 +11,7 @@ main(){
   install_nvim
   install_gcloud_cli
   install_golang
+  install_cf_cli
   install_misc_tools
   build_diff_highlight
 }
@@ -92,6 +93,15 @@ install_gcloud_cli(){
   # Update the package list and install the Cloud SDK
   apt-get update
   apt-get -y install google-cloud-sdk
+}
+
+install_cf_cli(){
+  # ...first add the Cloud Foundry Foundation public key and package repository to your system
+  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+  echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+  # ...then, update your local package index, then finally install the cf CLI
+  sudo apt-get update
+  sudo apt-get install cf-cli
 }
 
 install_misc_tools(){
