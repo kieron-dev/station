@@ -81,6 +81,7 @@ vagrant ssh
 
 Then you can setup an ngrok tunnel. There are alreay aliases to aid you in the process:
 
-1. `pmux`: starts a tmux session called `pairing`
 1. `nginit`: starts an ngrok tunnel in a side tmux session called `ngrok`
 1. `lsgrok`: prints an SSH command to connect to your VM, send this to your pair!
+1. `pmux`: starts a tmux session called `pairing`
+1. `pattach`: attaches to the `pairing` tmux session
