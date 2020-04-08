@@ -10,7 +10,6 @@ main() {
   install_vim_extensions
   clone_git_repos
   configure_dotfiles
-  setup_pass
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
@@ -90,11 +89,6 @@ configure_dotfiles() {
   popd
 }
 
-setup_pass() {
-  pass init eirini
-  ln -sfn ~/workspace/eirini-private-config/pass/eirini ~/.password-store/
-}
-
 install_vim_plugins() {
   nvim --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
   PATH="$PATH:/usr/local/go/bin" nvim --headless +GoUpdateBinaries +qall
@@ -127,7 +121,7 @@ compile_authorized_keys() {
 
 init_pass_store() {
   mkdir -p "$HOME/.password-store"
-  ln -s "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
+  ln -sfn "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
   pass init "$(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")"
 }
 
