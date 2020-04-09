@@ -35,6 +35,7 @@ install_packages(){
     build-essential \
     ca-certificates \
     cmake \
+    ctags \
     curl \
     direnv \
     g++ \
