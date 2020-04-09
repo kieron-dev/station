@@ -14,6 +14,7 @@ main(){
   install_cf_cli
   install_misc_tools
   build_diff_highlight
+  install_k14s_tools
 }
 
 disable_ipv6() {
@@ -120,6 +121,10 @@ build_diff_highlight() {
     make
     chmod a+x diff-highlight
   popd
+}
+
+install_k14s_tools() {
+  curl -L https://k14s.io/install.sh | bash
 }
 
 main
