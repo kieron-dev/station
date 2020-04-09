@@ -115,7 +115,7 @@ compile_authorized_keys() {
   authorized_keys="$HOME/.ssh/authorized_keys"
 
   while read -r gh_name; do 
-    key=$(curl -sL "https://api.github.com/users/$gh_name/keys" | jq -r ".[0].key")
+    keys=$(curl -sL "https://api.github.com/users/$gh_name/keys" | jq -r ".[].key")
     echo "$key $gh_name" >> "$HOME/.ssh/authorized_keys"
   done < "$HOME/workspace/eirini-home/team-github-ids"
 
