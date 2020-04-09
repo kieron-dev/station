@@ -5,6 +5,8 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "~/.gnupg", "/home/vagrant/.gnupg"
   config.vm.synced_folder "~/.ngrok2", "/home/vagrant/.ngrok2"
 
+	config.disksize.size = '50GB'
+
   config.vm.provider "virtualbox" do |vb|
     vb.name = 'eirini-station'
     vb.memory = ENV.fetch('EIRINI_STATION_MEMORY', '8192').to_i

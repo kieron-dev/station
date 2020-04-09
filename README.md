@@ -57,6 +57,12 @@ First you'll need to install the `vagrant-vbguest` plugin, which takes care of i
 vagrant plugin install vagrant-vbguest
 ```
 
+You also need to install the `vagrant-disksize` plugin to configure the vagrant disk size:
+
+```
+vagrant plugin install vagrant-disksize
+```
+
 If the above command takes too long and fails with an error like this one: `timed out (https://gems.hashicorp.com/specs.4.8.gz)` you probably need to turn ipv6 off by running `networksetup -setv6off Wi-Fi` and try again. To turn it back on you run `networksetup -setv6automatic Wi-Fi`.
 
 Make sure your GitHub SSH key is loaded. Even if you are using a key from your `~/.ssh` dir you still need to load it into the SSH agent:
