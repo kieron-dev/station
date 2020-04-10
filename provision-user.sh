@@ -14,6 +14,7 @@ main() {
   install_misc_tools
   install_pure_zsh_theme
   install_tmux_plugin_manager
+  install_zsh_autosuggestions
   compile_authorized_keys
   init_pass_store
   switch_to_zsh
@@ -40,6 +41,10 @@ install_ohmyzsh() {
 
 install_tmux_plugin_manager() {
   git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+}
+
+install_zsh_autosuggestions() {
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 install_vim_plug() {
