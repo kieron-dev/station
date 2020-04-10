@@ -50,6 +50,7 @@ install_packages(){
     libreadline-dev \
     libtool \
     libtool-bin \
+    libssl-dev \
     net-tools \
     netcat-openbsd \
     openssh-server \
