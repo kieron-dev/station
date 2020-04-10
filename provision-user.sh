@@ -116,7 +116,7 @@ compile_authorized_keys() {
 
   while read -r gh_name; do 
     keys=$(curl -sL "https://api.github.com/users/$gh_name/keys" | jq -r ".[].key")
-    echo "$key $gh_name" >> "$HOME/.ssh/authorized_keys"
+    echo "$keys $gh_name" >> "$HOME/.ssh/authorized_keys"
   done < "$HOME/workspace/eirini-home/team-github-ids"
 
   # remove duplicate keys
