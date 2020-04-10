@@ -21,8 +21,10 @@ main() {
 }
 
 install_ibmcloud_cli(){
-  curl -sL https://ibm.biz/idt-installer | bash
-  ibmcloud plugin install kubernetes-service -f
+  if [[ ! $(command -v ibmcloud) ]]; then
+    curl -sL https://ibm.biz/idt-installer | bash
+    ibmcloud plugin install kubernetes-service -f
+  fi
 }
 
 setup_helm_client() {
