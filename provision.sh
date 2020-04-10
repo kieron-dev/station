@@ -47,6 +47,7 @@ install_packages(){
     lastpass-cli \
     libevent-dev \
     libncurses5-dev \
+    libreadline-dev \
     libtool \
     libtool-bin \
     net-tools \

@@ -8,6 +8,7 @@ main() {
   install_ohmyzsh
   install_vim_plug
   install_vim_extensions
+  install_rbenv
   clone_git_repos
   configure_dotfiles
   install_vim_plugins
@@ -59,6 +60,22 @@ install_vim_extensions() {
   pip3 install --upgrade pip
   pip3 install --upgrade neovim
   gem install neovim --user-install
+}
+
+install_rbenv() {
+  local rbenv_root
+  rbenv_root="$HOME/.rbenv"
+
+  if [[ -d "$rbenv_root" ]]; then
+    return
+  fi
+
+  git clone https://github.com/rbenv/rbenv.git "$rbenv_root"
+
+  mkdir -p "$rbenv_root/plugins"
+  git clone https://github.com/rbenv/ruby-build.git "$rbenv_root/plugins/ruby-build"
+
+  PATH="$rbenv_root/bin:$PATH" rbenv install 2.5.5
 }
 
 clone_git_repos() {
