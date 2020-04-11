@@ -41,8 +41,6 @@ ngrok authtoken <your-token>
 Visit [ngrok.com](ngrok.com) to see your token or create an account if you don't have one. 
 
 ### Environment variables
-
-Our `Vagrantfile` requires the following environment variables to be defined:
 In order to specify the amount of memory and cpu that vagrant will allocate to the VM you may export the following env vars:
 
 * `EIRINI_STATION_MEMORY`: the amount of memory to reserve for the VM, in KB.
