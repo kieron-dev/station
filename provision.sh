@@ -63,6 +63,7 @@ install_packages(){
     ripgrep \
     ruby-dev \
     rubygems \
+    shellcheck \
     socat \
     software-properties-common \
     stow \
