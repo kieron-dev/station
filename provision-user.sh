@@ -47,7 +47,7 @@ install_tmux_plugin_manager() {
 }
 
 install_zsh_autosuggestions() {
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  git_clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 install_vim_plug() {
@@ -70,10 +70,10 @@ install_rbenv() {
     return
   fi
 
-  git clone https://github.com/rbenv/rbenv.git "$rbenv_root"
+  git_clone https://github.com/rbenv/rbenv.git "$rbenv_root"
 
   mkdir -p "$rbenv_root/plugins"
-  git clone https://github.com/rbenv/ruby-build.git "$rbenv_root/plugins/ruby-build"
+  git_clone https://github.com/rbenv/ruby-build.git "$rbenv_root/plugins/ruby-build"
 
   PATH="$rbenv_root/bin:$PATH" rbenv install 2.5.5
 }
