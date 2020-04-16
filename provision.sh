@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-main(){
+main() {
   apt-get update
 
   disable_ipv6
@@ -22,13 +22,13 @@ disable_ipv6() {
   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 }
 
-setup_locale(){
+setup_locale() {
   apt-get -y install locales
   locale-gen en_US.UTF-8
   update-locale LANG=en_US.UTF-8
 }
 
-install_packages(){
+install_packages() {
   apt-get -y install \
     apt-transport-https \
     autoconf \
@@ -74,23 +74,23 @@ install_packages(){
     zsh
 }
 
-install_golang(){
+install_golang() {
   mkdir -p /usr/local/go
   curl -sL "https://dl.google.com/go/go1.14.linux-amd64.tar.gz" | tar xz -C "/usr/local"
 }
 
-install_nodejs(){
+install_nodejs() {
   curl -sL https://deb.nodesource.com/setup_13.x | bash -
   apt-get -y install nodejs
 }
 
-install_nvim(){
+install_nvim() {
   add-apt-repository ppa:neovim-ppa/unstable
   apt-get update
   apt-get -y install neovim
 }
 
-install_gcloud_cli(){
+install_gcloud_cli() {
   # Add the Cloud SDK distribution URI as a package source
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
   # Import the Google Cloud Platform public key
@@ -100,7 +100,7 @@ install_gcloud_cli(){
   apt-get -y install google-cloud-sdk
 }
 
-install_cf_cli(){
+install_cf_cli() {
   # ...first add the Cloud Foundry Foundation public key and package repository to your system
   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
@@ -109,7 +109,7 @@ install_cf_cli(){
   apt-get -y install cf-cli=6.49.0
 }
 
-install_misc_tools(){
+install_misc_tools() {
   curl -sL "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz" | tar xz -C /usr/bin
   curl -sL "https://github.com/JulzDiverse/goml/releases/download/v0.7.0/goml-linux-amd64" -o /usr/bin/goml && chmod +x /usr/bin/goml
   curl -sL "https://github.com/JulzDiverse/aviator/releases/download/v1.6.0/aviator-linux-amd64" -o /usr/bin/aviator && chmod +x /usr/bin/aviator

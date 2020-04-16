@@ -21,7 +21,7 @@ main() {
   switch_to_zsh
 }
 
-install_ibmcloud_cli(){
+install_ibmcloud_cli() {
   if [[ ! $(command -v ibmcloud) ]]; then
     curl -sL https://ibm.biz/idt-installer | bash
     ibmcloud plugin install kubernetes-service -f
