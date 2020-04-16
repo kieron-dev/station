@@ -13,7 +13,7 @@ main() {
   install_golang
   install_cf_cli
   install_misc_tools
-  build_diff_highlight
+  install_diff-so-fancy
   install_k14s_tools
 }
 
@@ -119,11 +119,8 @@ install_misc_tools() {
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 }
 
-build_diff_highlight() {
-  pushd /usr/share/doc/git/contrib/diff-highlight
-    make
-    chmod a+x diff-highlight
-  popd
+install_diff-so-fancy() {
+  npm install -g diff-so-fancy
 }
 
 install_k14s_tools() {
