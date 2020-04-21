@@ -38,6 +38,7 @@ install_gotools() {
   go get -u github.com/davidrjenni/reftools/cmd/fillstruct
   go get -u github.com/fatih/gomodifytags
   go get -u honnef.co/go/tools/cmd/keyify
+  go get -u golang.org/x/tools/cmd/goimports
 }
 
 install_ohmyzsh() {
