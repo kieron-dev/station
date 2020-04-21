@@ -4,7 +4,7 @@ set -exuo pipefail
 main() {
   install_ibmcloud_cli
   setup_helm_client
-  install_golangcilint
+  install_gotools
   install_ohmyzsh
   install_vim_plug
   install_vim_extensions
@@ -32,8 +32,12 @@ setup_helm_client() {
   helm init --client-only
 }
 
-install_golangcilint() {
+install_gotools() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin" v1.24.0
+  GO111MODULE=on go get golang.org/x/tools/gopls@latest
+  go get -u github.com/davidrjenni/reftools/cmd/fillstruct
+  go get -u github.com/fatih/gomodifytags
+  go get -u honnef.co/go/tools/cmd/keyify
 }
 
 install_ohmyzsh() {
