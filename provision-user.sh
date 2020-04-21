@@ -34,11 +34,11 @@ setup_helm_client() {
 
 install_gotools() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin" v1.24.0
-  GO111MODULE=on go get golang.org/x/tools/gopls@latest
-  go get -u github.com/davidrjenni/reftools/cmd/fillstruct
-  go get -u github.com/fatih/gomodifytags
-  go get -u honnef.co/go/tools/cmd/keyify
-  go get -u golang.org/x/tools/cmd/goimports
+  GO111MODULE=on go_get golang.org/x/tools/gopls@latest
+  go_get github.com/davidrjenni/reftools/cmd/fillstruct
+  go_get github.com/fatih/gomodifytags
+  go_get honnef.co/go/tools/cmd/keyify
+  go_get golang.org/x/tools/cmd/goimports
 }
 
 install_ohmyzsh() {
