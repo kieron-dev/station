@@ -68,6 +68,7 @@ install_packages() {
     software-properties-common \
     stow \
     tmux \
+    trash-cli \
     unzip \
     wget \
     xsel \
