@@ -92,20 +92,15 @@ install_nvim() {
 }
 
 install_gcloud_cli() {
-  # Add the Cloud SDK distribution URI as a package source
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-  # Import the Google Cloud Platform public key
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-  # Update the package list and install the Cloud SDK
   apt-get update
   apt-get -y install google-cloud-sdk
 }
 
 install_cf_cli() {
-  # ...first add the Cloud Foundry Foundation public key and package repository to your system
   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-  # ...then, update your local package index, then finally install the cf CLI
   apt-get update
   apt-get -y install cf-cli=6.49.0
   sudo tee /etc/apt/preferences.d/cf-cli > /dev/null <<EOF
