@@ -108,6 +108,11 @@ install_cf_cli() {
   # ...then, update your local package index, then finally install the cf CLI
   apt-get update
   apt-get -y install cf-cli=6.49.0
+  sudo tee /etc/apt/preferences.d/cf-cli > /dev/null <<EOF
+Package: cf-cli
+Pin: version 6.49*
+Pin-Priority: 1000
+EOF
 }
 
 install_misc_tools() {
