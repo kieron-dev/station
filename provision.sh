@@ -108,7 +108,7 @@ install_cf_cli() {
   echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
   apt-get -y install cf-cli=6.49.0
-  sudo tee /etc/apt/preferences.d/cf-cli > /dev/null <<EOF
+  sudo tee /etc/apt/preferences.d/cf-cli >/dev/null <<EOF
 Package: cf-cli
 Pin: version 6.49*
 Pin-Priority: 1000
