@@ -2,8 +2,6 @@
 set -euo pipefail
 
 main() {
-  apt-get update
-
   disable_ipv6
   setup_locale
   install_packages
@@ -30,6 +28,7 @@ setup_locale() {
 }
 
 install_packages() {
+  apt-get update
   apt-get -y install \
     apt-transport-https \
     autoconf \
