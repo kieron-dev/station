@@ -7,6 +7,7 @@ main() {
   disable_ipv6
   setup_locale
   install_packages
+  install_snaps
   install_nodejs
   install_nvim
   install_gcloud_cli
@@ -73,6 +74,10 @@ install_packages() {
     wget \
     xsel \
     zsh
+}
+
+install_snaps() {
+  snap install shfmt
 }
 
 install_golang() {
