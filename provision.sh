@@ -17,17 +17,20 @@ main() {
 }
 
 disable_ipv6() {
+  echo ">>> Disabling IPv6"
   sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 }
 
 setup_locale() {
+  echo ">>> Setting up the en_US locale"
   apt-get -y install locales
   locale-gen en_US.UTF-8
   update-locale LANG=en_US.UTF-8
 }
 
 install_packages() {
+  echo ">>> Installing the APT packages"
   apt-get update
   apt-get -y install \
     apt-transport-https \
@@ -76,26 +79,31 @@ install_packages() {
 }
 
 install_snaps() {
+  echo ">>> Installing the Snap packages"
   snap install shfmt
 }
 
 install_golang() {
+  echo ">>> Installing Golang"
   mkdir -p /usr/local/go
   curl -sL "https://dl.google.com/go/go1.14.linux-amd64.tar.gz" | tar xz -C "/usr/local"
 }
 
 install_nodejs() {
+  echo ">>> Installing NodeJS"
   curl -sL https://deb.nodesource.com/setup_13.x | bash -
   apt-get -y install nodejs
 }
 
 install_nvim() {
+  echo ">>> Installing NeoVim"
   add-apt-repository -y ppa:neovim-ppa/unstable
   apt-get update
   apt-get -y install neovim
 }
 
 install_gcloud_cli() {
+  echo ">>> Installing the Google Cloud CLI"
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
   curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
   apt-get update
@@ -103,6 +111,7 @@ install_gcloud_cli() {
 }
 
 install_cf_cli() {
+  echo ">>> Installing the Cloud Foundry CLI"
   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
@@ -115,20 +124,35 @@ EOF
 }
 
 install_misc_tools() {
+  echo ">>> Installing ngrok"
   curl -sL "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz" | tar xz -C /usr/bin
+
+  echo ">>> Installing goml"
   curl -sL "https://github.com/JulzDiverse/goml/releases/download/v0.7.0/goml-linux-amd64" -o /usr/bin/goml && chmod +x /usr/bin/goml
+
+  echo ">>> Installing aviator"
   curl -sL "https://github.com/JulzDiverse/aviator/releases/download/v1.6.0/aviator-linux-amd64" -o /usr/bin/aviator && chmod +x /usr/bin/aviator
+
+  echo ">>> Installing fly"
   curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o /usr/bin/fly && chmod +x /usr/bin/fly
+
+  echo ">>> Installing dhall-json"
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-json-1.6.2-x86_64-linux.tar.bz2" | tar xvj -C /usr
+
+  echo ">>> Installing dhall-lsp-server"
   curl -sL "https://github.com/dhall-lang/dhall-haskell/releases/download/1.30.0/dhall-lsp-server-1.0.5-x86_64-linux.tar.bz2" | tar xvj -C /usr
+
+  echo ">>> Installing git-duet"
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 }
 
 install_diff-so-fancy() {
+  echo ">>> Installing diff-so-fancy"
   npm install -g diff-so-fancy
 }
 
 install_k14s_tools() {
+  echo ">>> Installing the k14s tools"
   curl -sL https://k14s.io/install.sh | bash
 }
 

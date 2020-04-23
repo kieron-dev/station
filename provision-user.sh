@@ -7,7 +7,7 @@ main() {
   install_gotools
   install_ohmyzsh
   install_vim_plug
-  install_vim_extensions
+  install_nvim_extensions
   install_rbenv
   clone_git_repos
   configure_dotfiles
@@ -23,44 +23,62 @@ main() {
 
 install_ibmcloud_cli() {
   if [[ ! $(command -v ibmcloud) ]]; then
+    echo ">>> Installing the IBM Cloud CLI"
     curl -sL https://ibm.biz/idt-installer | bash
     ibmcloud plugin install kubernetes-service -f
   fi
 }
 
 setup_helm_client() {
+  echo ">>> Setting up the Helm client"
   helm init --client-only
 }
 
 install_gotools() {
+  echo ">>> Installing golangci-lint"
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin" v1.24.0
+
+  echo ">>> Installing gopls"
   GO111MODULE=on go_get golang.org/x/tools/gopls@latest
+
+  echo ">>> Installing fillstruct"
   go_get github.com/davidrjenni/reftools/cmd/fillstruct
+
+  echo ">>> Installing gomodifytags"
   go_get github.com/fatih/gomodifytags
+
+  echo ">>> Installing keyify"
   go_get honnef.co/go/tools/cmd/keyify
+
+  echo ">>> Installing goimports"
   go_get golang.org/x/tools/cmd/goimports
 }
 
 install_ohmyzsh() {
+  echo ">>> Installing Oh My Zsh"
   [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   # Delete default .zshrc to avoid stow conflicts
   rm -f "$HOME/.zshrc"
 }
 
 install_tmux_plugin_manager() {
+  echo ">>> Installing TPM"
   git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
 install_zsh_autosuggestions() {
+  echo ">>> Installing zsh-autosuggestions"
   git_clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 install_vim_plug() {
+  echo ">>> Installing vim-plug"
   curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
-install_vim_extensions() {
+install_nvim_extensions() {
+  echo ">>> Installing the NeoVim extensions"
   sudo npm install -g neovim
   pip3 install --upgrade pip
   pip3 install --upgrade neovim
@@ -68,6 +86,8 @@ install_vim_extensions() {
 }
 
 install_rbenv() {
+  echo ">>> Installing Ruby with rbenv"
+
   local rbenv_root
   rbenv_root="$HOME/.rbenv"
 
@@ -84,6 +104,8 @@ install_rbenv() {
 }
 
 clone_git_repos() {
+  echo ">>> Cloning our Git repositories"
+
   ssh-keyscan -t rsa github.com >> "$HOME/.ssh/known_hosts"
 
   mkdir -p "$HOME/workspace"
@@ -117,6 +139,7 @@ git_clone() {
 }
 
 configure_dotfiles() {
+  echo ">>> Installing eirini-home"
   pushd "$HOME/workspace/eirini-home"
     git checkout vagrant
     ./install.sh
@@ -124,14 +147,22 @@ configure_dotfiles() {
 }
 
 install_vim_plugins() {
+  echo ">>> Installing the NeoVim plugins"
   nvim --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
   PATH="$PATH:/usr/local/go/bin" nvim --headless +GoUpdateBinaries +qall
 }
 
 install_misc_tools() {
+  echo ">>> Installing Gomega"
   go_get "github.com/onsi/gomega"
+
+  echo ">>> Installing Ginkgo"
   go_get "github.com/onsi/ginkgo/ginkgo"
+
+  echo ">>> Installing Counterfeiter"
   go_get "github.com/maxbrunsfeld/counterfeiter"
+
+  echo ">>> Installing concourse-flake-hunter"
   go_get "github.com/masters-of-cats/concourse-flake-hunter"
 }
 
@@ -140,6 +171,8 @@ go_get() {
 }
 
 compile_authorized_keys() {
+  echo ">>> Generating ~/.ssh/authorized_keys"
+
   local authorized_keys keys key
   authorized_keys="$HOME/.ssh/authorized_keys"
 
@@ -154,12 +187,14 @@ compile_authorized_keys() {
 }
 
 init_pass_store() {
+  echo ">>> Initialising the pass store"
   mkdir -p "$HOME/.password-store"
   ln -sfn "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
   pass init "$(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")"
 }
 
 install_pure_zsh_theme() {
+  echo ">>> Installing the pure prompt"
   mkdir -p "$HOME/.zsh"
   git_clone "https://github.com/sindresorhus/pure.git" "$HOME/.zsh/pure"
   pushd "$HOME/.zsh/pure"
@@ -168,6 +203,7 @@ install_pure_zsh_theme() {
 }
 
 switch_to_zsh() {
+  echo ">>> Setting Zsh as the default shell"
   sudo chsh -s /bin/zsh vagrant
 }
 
