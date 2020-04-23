@@ -86,7 +86,7 @@ install_nodejs() {
 }
 
 install_nvim() {
-  add-apt-repository ppa:neovim-ppa/unstable
+  add-apt-repository -y ppa:neovim-ppa/unstable
   apt-get update
   apt-get -y install neovim
 }
