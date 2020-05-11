@@ -1,5 +1,5 @@
 #!/bin/bash
-set -exuo pipefail
+set -euo pipefail
 
 main() {
   install_ibmcloud_cli
