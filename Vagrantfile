@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/eoan64"
+  config.vm.box = "ubuntu/focal64"
   config.vm.hostname = "#{`hostname`[0..-2]}-eirini"
 
   config.vm.synced_folder "~/.gnupg", "/home/vagrant/.gnupg"
