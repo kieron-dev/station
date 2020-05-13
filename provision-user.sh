@@ -164,7 +164,7 @@ install_misc_tools() {
   go_get "github.com/onsi/ginkgo/ginkgo"
 
   echo ">>> Installing Counterfeiter"
-  go_get "github.com/maxbrunsfeld/counterfeiter"
+  GO111MODULE=off go_get "github.com/maxbrunsfeld/counterfeiter"
 
   echo ">>> Installing concourse-flake-hunter"
   go_get "github.com/masters-of-cats/concourse-flake-hunter"
