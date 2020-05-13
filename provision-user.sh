@@ -210,7 +210,7 @@ install_pure_zsh_theme() {
 
 switch_to_zsh() {
   echo ">>> Setting Zsh as the default shell"
-  sudo chsh -s /bin/zsh vagrant
+  sudo chsh -s /bin/zsh "$(whoami)"
 }
 
 main
