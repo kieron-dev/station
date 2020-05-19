@@ -56,6 +56,7 @@ install_packages() {
     libssl-dev \
     net-tools \
     netcat-openbsd \
+    ntp \
     openssh-server \
     pass \
     pkg-config \
