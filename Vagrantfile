@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "google" do |gcp, override|
-    username = ENV.fetch('EIRINI_STATION_USERNAME')
+    username = ENV['EIRINI_STATION_USERNAME']
 
     override.vm.box = "google/gce"
 
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     override.vm.synced_folder "~/.ngrok2", "/home/#{username}/.ngrok2"
 
     gcp.google_project_id = 'cf-garden-core'
-    gcp.google_json_key_location = ENV.fetch('EIRINI_STATION_GCP_JSON_KEY_PATH')
+    gcp.google_json_key_location = ENV['EIRINI_STATION_GCP_JSON_KEY_PATH']
     gcp.image_family = 'ubuntu-2004-lts'
     gcp.machine_type = 'n1-standard-8'
     gcp.disk_size = 50
@@ -47,6 +47,6 @@ Vagrant.configure("2") do |config|
     gcp.name = "#{username}-eirini-station"
 
     override.ssh.username = username
-    override.ssh.private_key_path = ENV.fetch('EIRINI_STATION_SSH_PRIVATE_KEY_PATH')
+    override.ssh.private_key_path = ENV['EIRINI_STATION_SSH_PRIVATE_KEY_PATH']
   end
 end
