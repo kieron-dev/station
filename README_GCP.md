@@ -33,13 +33,11 @@ SSH into the VM:
 vagrant ssh
 ```
 
-Find out your public IP and send it to your pair:
+Print the command to ssh onto the VM and send it to your pair:
 
 ```
-curl ipecho.net/plain
+pssh
 ```
-
-Your pair can now SSH using *your* usename.
 
 You can now start your pairing session:
 
