@@ -8,8 +8,6 @@ Vagrant.configure("2") do |config|
     p.privileged = false
   end
 
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-
   config.vm.provider "virtualbox" do |vb, override|
     vb.name = 'eirini-station'
     vb.memory = ENV.fetch('EIRINI_STATION_MEMORY', '8192').to_i
@@ -37,6 +35,7 @@ Vagrant.configure("2") do |config|
 
     override.vm.box = "google/gce"
 
+    config.vm.synced_folder ".", "/vagrant", disabled: true
     override.vm.synced_folder "~/.gnupg", "/home/#{username}/.gnupg"
 
     gcp.google_project_id = 'cf-garden-core'
