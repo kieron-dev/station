@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder ".", "/vagrant", disabled: true
     override.vm.synced_folder "~/.gnupg", "/home/#{username}/.gnupg"
 
-    gcp.google_project_id = 'cf-garden-core'
+    gcp.google_project_id = 'cff-eirini-peace-pods'
     gcp.google_json_key_location = ENV['EIRINI_STATION_GCP_JSON_KEY_PATH']
     gcp.image_family = 'ubuntu-2004-lts'
     gcp.machine_type = 'n1-standard-8'
