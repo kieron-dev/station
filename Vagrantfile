@@ -36,7 +36,6 @@ Vagrant.configure("2") do |config|
     override.vm.box = "google/gce"
 
     override.vm.synced_folder "~/.gnupg", "/home/#{username}/.gnupg"
-    override.vm.synced_folder "~/.ngrok2", "/home/#{username}/.ngrok2"
 
     gcp.google_project_id = 'cf-garden-core'
     gcp.google_json_key_location = ENV['EIRINI_STATION_GCP_JSON_KEY_PATH']
