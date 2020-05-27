@@ -16,6 +16,7 @@
 * Set up the necessary environment variables:
   - `EIRINI_STATION_MEMORY`: the amount of memory to reserve for the VM, in KB.
   - `EIRINI_STATION_CPUS`: the number of CPUs the VM can use. This can safely be the total number of cores on your machine.
+  
   If you do not specify them defaults will be applied which may or may not be adequate for your host. Please refer to the `Vagrantfile` for details.
 * Install the `vagrant-vbguest` and `vagrant-disksize` plugins:
   ```
