@@ -46,6 +46,6 @@ Vagrant.configure("2") do |config|
     gcp.name = "#{username}-eirini-station"
 
     override.ssh.username = username
-    override.ssh.private_key_path = ENV['EIRINI_STATION_SSH_PRIVATE_KEY_PATH']
+    override.ssh.keys_only = false
   end
 end
