@@ -9,6 +9,7 @@ main() {
   install_vim_plug
   install_nvim_extensions
   install_rbenv
+  install_cred_alert
   clone_git_repos
   configure_dotfiles
   install_vim_plugins
@@ -19,6 +20,14 @@ main() {
   compile_authorized_keys
   init_pass_store
   switch_to_zsh
+}
+
+install_cred_alert() {
+  os_name=$(uname | awk '{print tolower($1)}')
+  curl -o cred-alert-cli \
+    https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
+  chmod 755 cred-alert-cli
+  mv cred-alert-cli /home/vagrant/bin
 }
 
 install_ibmcloud_cli() {
@@ -118,6 +127,7 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
     git_clone "git@github.com:eirini-forks/eirini-home.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
+    git_clone "https://github.com/pivotal-cf/git-hooks-core"
   }
   popd
 }
