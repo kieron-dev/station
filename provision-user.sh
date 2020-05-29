@@ -27,7 +27,7 @@ install_cred_alert() {
   curl -o cred-alert-cli \
     https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
   chmod 755 cred-alert-cli
-  mv cred-alert-cli /home/vagrant/bin
+  mv cred-alert-cli "$HOME/bin"
 }
 
 install_ibmcloud_cli() {
