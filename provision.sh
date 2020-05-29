@@ -8,11 +8,11 @@ main() {
   install_snaps
   install_nodejs
   install_nvim
+  install_npm_packages
   install_gcloud_cli
   install_golang
   install_cf_cli
   install_misc_tools
-  install_diff-so-fancy
   install_k14s_tools
 }
 
@@ -147,14 +147,14 @@ install_misc_tools() {
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 }
 
-install_diff-so-fancy() {
-  echo ">>> Installing diff-so-fancy"
-  npm install -g diff-so-fancy
-}
-
 install_k14s_tools() {
   echo ">>> Installing the k14s tools"
   curl -sL https://k14s.io/install.sh | bash
+}
+
+install_npm_packages() {
+  echo ">>> Installing npm packages"
+  npm install -g bash-language-server diff-so-fancy
 }
 
 main
