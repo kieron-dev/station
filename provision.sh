@@ -1,7 +1,40 @@
 #!/bin/bash
 set -euo pipefail
 
+readonly USAGE="Usage: provision.sh [-l | -c <command_name>]"
+
 main() {
+  if [[ $EUID -ne 0 ]]; then
+    echo "Script must be run as root."
+    exit 1
+  fi
+
+  while getopts ":lch" opt; do
+    case ${opt} in
+      l)
+        declare -F | awk '{ print $3 }' | grep -v main
+        exit 0
+        ;;
+      c)
+        shift $((OPTIND - 1))
+        for command in $@; do
+          $command
+        done
+        exit $?
+        ;;
+      h)
+        echo $USAGE
+        exit 0
+        ;;
+      \?)
+        echo "Invalid option: $OPTARG" 1>&2
+        echo $USAGE
+        exit 1
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  echo ">>> Installing everything..."
   disable_ipv6
   setup_locale
   install_packages
@@ -157,4 +190,4 @@ install_npm_packages() {
   npm install -g bash-language-server diff-so-fancy
 }
 
-main
+main $@

@@ -1,7 +1,35 @@
 #!/bin/bash
 set -euo pipefail
 
+readonly USAGE="Usage: provision.sh [-l | -c <command_name>]"
+
 main() {
+  while getopts ":lch" opt; do
+    case ${opt} in
+      l)
+        declare -F | awk '{ print $3 }' | grep -vE "(main|go_get|git_clone)"
+        exit 0
+        ;;
+      c)
+        shift $((OPTIND - 1))
+        for command in $@; do
+          $command
+        done
+        exit 0
+        ;;
+      h)
+        echo $USAGE
+        exit 0
+        ;;
+      \?)
+        echo "Invalid option: $OPTARG" 1>&2
+        echo $USAGE
+        exit 1
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  echo ">>> Installing everything..."
   install_ibmcloud_cli
   setup_helm_client
   install_gotools
@@ -223,4 +251,4 @@ switch_to_zsh() {
   sudo chsh -s /bin/zsh "$(whoami)"
 }
 
-main
+main $@
