@@ -155,7 +155,7 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
     git_clone "git@github.com:eirini-forks/eirini-home.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
-    git_clone "https://github.com/pivotal-cf/git-hooks-core"
+    git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
   }
   popd
 }
@@ -166,7 +166,7 @@ git_clone() {
   path=${2:-""}
 
   if [ -z "$path" ]; then
-    name=$(echo "$url" | sed 's/.git//g' | cut -d / -f 2)
+    name=$(echo "$url" | sed 's/\.git//g' | cut -d / -f 2)
     path="$HOME/workspace/$name"
   fi
 
