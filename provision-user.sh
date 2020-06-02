@@ -30,6 +30,7 @@ main() {
   done
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
+  mkdir_home_user_bin
   install_ibmcloud_cli
   setup_helm_client
   install_gotools
@@ -50,12 +51,16 @@ main() {
   switch_to_zsh
 }
 
+mkdir_home_user_bin() {
+  mkdir -p $HOME/bin
+}
+
 install_cred_alert() {
   os_name=$(uname | awk '{print tolower($1)}')
   curl -o cred-alert-cli \
     https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
   chmod 755 cred-alert-cli
-  mv cred-alert-cli "$HOME/bin"
+  mv cred-alert-cli "$HOME/bin/"
 }
 
 install_ibmcloud_cli() {
@@ -73,7 +78,7 @@ setup_helm_client() {
 
 install_gotools() {
   echo ">>> Installing golangci-lint"
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin" v1.26.0
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin/" v1.26.0
 
   echo ">>> Installing gopls"
   GO111MODULE=on go_get golang.org/x/tools/gopls@latest
