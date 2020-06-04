@@ -1,6 +1,6 @@
 # eirini-station
 
-Common pairing environment for the Eirini Project. You can set up a development VM locally on [Vitualbox](./README_VB.md) or on the cloud using [GCP](./README_GCP.md).
+Common pairing environment for the Eirini Project. You can set up a development VM locally on [Virtualbox](./README_VB.md) or on the cloud using [GCP](./README_GCP.md).
 
 ## Common prerequisites
 
