@@ -178,6 +178,14 @@ install_misc_tools() {
 
   echo ">>> Installing git-duet"
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
+
+  echo ">>> Installing terraform"
+  curl -sL "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip" -o /tmp/terraform.zip
+  unzip -u /tmp/terraform.zip -d /usr/bin
+  rm /tmp/terraform.zip
+
+  echo ">>> Installing bosh"
+  curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.2.1/bosh-cli-6.2.1-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
 }
 
 install_k14s_tools() {
