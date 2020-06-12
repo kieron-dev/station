@@ -164,6 +164,9 @@ install_misc_tools() {
   echo ">>> Installing goml"
   curl -sL "https://github.com/JulzDiverse/goml/releases/download/v0.7.0/goml-linux-amd64" -o /usr/bin/goml && chmod +x /usr/bin/goml
 
+  echo ">>> Installing spruce"
+  curl -sL https://github.com/geofffranks/spruce/releases/download/v1.25.3/spruce-linux-amd64 -o /usr/bin/spruce && chmod +x /usr/bin/spruce
+
   echo ">>> Installing aviator"
   curl -sL "https://github.com/JulzDiverse/aviator/releases/download/v1.6.0/aviator-linux-amd64" -o /usr/bin/aviator && chmod +x /usr/bin/aviator
 
