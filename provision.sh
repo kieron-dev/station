@@ -47,6 +47,7 @@ main() {
   install_cf_cli
   install_misc_tools
   install_k14s_tools
+  install_delta
 }
 
 disable_ipv6() {
@@ -199,6 +200,16 @@ install_k14s_tools() {
 install_npm_packages() {
   echo ">>> Installing npm packages"
   npm install -g bash-language-server diff-so-fancy
+}
+
+install_delta() {
+  echo ">>> Installing delta"
+  set -x
+  curl -sL https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-unknown-linux-musl.tar.gz -o /tmp/delta.tar.gz
+  tar xzvf /tmp/delta.tar.gz
+  mv delta-0.1.1-x86_64-unknown-linux-musl/delta /usr/bin
+  rm -fr delta-0.1.1-x86_64-unknown-linux-musl /tmp/delta.tar.gz
+  set +x
 }
 
 main $@
