@@ -187,7 +187,7 @@ configure_dotfiles() {
   echo ">>> Installing eirini-home"
   pushd "$HOME/workspace/eirini-home"
   {
-    git checkout vagrant
+    git checkout master
     ./install.sh
   }
   popd
