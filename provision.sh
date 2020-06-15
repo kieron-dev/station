@@ -199,7 +199,7 @@ install_k14s_tools() {
 
 install_npm_packages() {
   echo ">>> Installing npm packages"
-  npm install -g bash-language-server diff-so-fancy
+  npm install -g bash-language-server
 }
 
 install_delta() {
