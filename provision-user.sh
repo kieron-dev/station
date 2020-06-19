@@ -163,6 +163,8 @@ clone_git_repos() {
     git_clone "git@github.com:eirini-forks/eirini-station.git"
     git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
     git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
+    git_clone "git@github.com:cloudfoundry/capi-k8s-release.git"
+    git_clone "git@github.com:cloudfoundry/capi-release.git"
   }
   popd
 }
