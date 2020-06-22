@@ -115,7 +115,8 @@ install_packages() {
 
 install_snaps() {
   echo ">>> Installing the Snap packages"
-  snap install shfmt yq
+  snap install shfmt
+  snap install yq
 }
 
 install_golang() {
