@@ -73,6 +73,7 @@ install_packages() {
     build-essential \
     ca-certificates \
     cmake \
+    cowsay \
     ctags \
     curl \
     direnv \
@@ -85,9 +86,9 @@ install_packages() {
     libevent-dev \
     libncurses5-dev \
     libreadline-dev \
+    libssl-dev \
     libtool \
     libtool-bin \
-    libssl-dev \
     net-tools \
     netcat-openbsd \
     ntp \
@@ -117,6 +118,7 @@ install_snaps() {
   echo ">>> Installing the Snap packages"
   snap install shfmt
   snap install yq
+  snap install lolcat
 }
 
 install_golang() {
