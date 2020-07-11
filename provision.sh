@@ -77,6 +77,7 @@ install_packages() {
     ctags \
     curl \
     direnv \
+    fortune \
     g++ \
     git \
     gnupg-agent \
