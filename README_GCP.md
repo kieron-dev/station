@@ -50,3 +50,9 @@ You pair can then join the session:
 ```
 pattach
 ```
+
+## Station script
+
+Alternatively you can put [this script](https://raw.githubusercontent.com/eirini-forks/eirini-home/master/util/bin/station) somewhere on your path. It is a tiny vagrant wrapper that exports the necessary env vars for you and delegates to vagrant.
+You can easily provision the vm by running `station up` or `station provision` from any directory.
+Logging onto the vm is as easy as `station ssh`
