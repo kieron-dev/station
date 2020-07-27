@@ -233,6 +233,9 @@ install_misc_tools() {
 
   echo ">>> Installing flightattendant"
   go_get "github.com/masters-of-cats/flightattendant"
+
+  echo ">>> Installing k9s (v0.21.4)"
+  curl -L https://github.com/derailed/k9s/releases/download/v0.21.4/k9s_Linux_x86_64.tar.gz | tar xvzf - -C $HOME/bin k9s
 }
 
 go_get() {
