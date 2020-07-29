@@ -107,6 +107,7 @@ install_packages() {
     socat \
     software-properties-common \
     stow \
+    tig \
     tmux \
     trash-cli \
     unzip \
