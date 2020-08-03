@@ -95,6 +95,9 @@ install_gotools() {
 
   echo ">>> Installing goimports"
   go_get golang.org/x/tools/cmd/goimports
+
+  echo ">>> Installing gci"
+  go_get github.com/daixiang0/gci
 }
 
 install_ohmyzsh() {
