@@ -93,8 +93,8 @@ install_gotools() {
   echo ">>> Installing keyify"
   go_get honnef.co/go/tools/cmd/keyify
 
-  echo ">>> Installing goimports"
-  go_get golang.org/x/tools/cmd/goimports
+  echo ">>> Installing gofumports"
+  GO111MODULE=on go_get mvdan.cc/gofumpt/gofumports
 
   echo ">>> Installing gci"
   go_get github.com/daixiang0/gci
