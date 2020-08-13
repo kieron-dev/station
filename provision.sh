@@ -84,6 +84,8 @@ install_packages() {
     iputils-ping \
     jq \
     lastpass-cli \
+    libbtrfs-dev \
+    libdevmapper-dev \
     libevent-dev \
     libncurses5-dev \
     libreadline-dev \
