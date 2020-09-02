@@ -137,6 +137,12 @@ install_nodejs() {
   apt-get -y install nodejs
 }
 
+install_telepresence() {
+  echo ">>> Installing Telepresence"
+  curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.deb.sh | bash
+  apt-get -y install telepresence
+}
+
 install_nvim() {
   echo ">>> Installing NeoVim"
   add-apt-repository -y ppa:neovim-ppa/unstable
