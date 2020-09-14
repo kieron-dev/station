@@ -85,19 +85,19 @@ install_gotools() {
   GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
   echo ">>> Installing fillstruct"
-  go_get github.com/davidrjenni/reftools/cmd/fillstruct
+  go_get -u github.com/davidrjenni/reftools/cmd/fillstruct
 
   echo ">>> Installing gomodifytags"
-  go_get github.com/fatih/gomodifytags
+  go_get -u github.com/fatih/gomodifytags
 
   echo ">>> Installing keyify"
-  go_get honnef.co/go/tools/cmd/keyify
+  go_get -u honnef.co/go/tools/cmd/keyify
 
   echo ">>> Installing goimports"
-  go_get golang.org/x/tools/cmd/goimports
+  go_get -u golang.org/x/tools/cmd/goimports
 
   echo ">>> Installing gci"
-  go_get github.com/daixiang0/gci
+  go_get -u github.com/daixiang0/gci
 }
 
 install_ohmyzsh() {
@@ -222,22 +222,22 @@ install_vim_plugins() {
 
 install_misc_tools() {
   echo ">>> Installing Gomega"
-  go_get "github.com/onsi/gomega"
+  go_get -u "github.com/onsi/gomega"
 
   echo ">>> Installing Ginkgo"
-  go_get "github.com/onsi/ginkgo/ginkgo"
+  go_get -u "github.com/onsi/ginkgo/ginkgo"
 
   echo ">>> Installing Counterfeiter"
-  GO111MODULE=off go_get "github.com/maxbrunsfeld/counterfeiter"
+  GO111MODULE=off go_get -u "github.com/maxbrunsfeld/counterfeiter"
 
   echo ">>> Installing concourse-flake-hunter"
-  go_get "github.com/masters-of-cats/concourse-flake-hunter"
+  go_get -u "github.com/masters-of-cats/concourse-flake-hunter"
 
   echo ">>> Installing fly"
   curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o "$HOME/bin/fly" && chmod +x "$HOME/bin/fly"
 
   echo ">>> Installing flightattendant"
-  go_get "github.com/masters-of-cats/flightattendant"
+  go_get -u "github.com/masters-of-cats/flightattendant"
 
   echo ">>> Installing k9s (v0.21.4)"
   curl -L https://github.com/derailed/k9s/releases/download/v0.21.4/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
@@ -249,7 +249,7 @@ install_misc_tools() {
 }
 
 go_get() {
-  /usr/local/go/bin/go get -u "$1"
+  /usr/local/go/bin/go get "$@"
 }
 
 compile_authorized_keys() {
