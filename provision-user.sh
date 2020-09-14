@@ -82,7 +82,7 @@ install_gotools() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin/" v1.31.0
 
   echo ">>> Installing gopls"
-  GO111MODULE=on go_get golang.org/x/tools/gopls@latest
+  GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
   echo ">>> Installing fillstruct"
   go_get github.com/davidrjenni/reftools/cmd/fillstruct
