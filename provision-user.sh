@@ -218,7 +218,6 @@ configure_dotfiles() {
 install_vim_plugins() {
   echo ">>> Installing the NeoVim plugins"
   nvim --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
-  PATH="$PATH:/usr/local/go/bin" nvim --headless +GoUpdateBinaries +qall
 }
 
 install_misc_tools() {
