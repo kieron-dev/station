@@ -158,7 +158,7 @@ clone_git_repos() {
   pushd "$HOME/workspace"
   {
     git_clone "git@github.com:cloudfoundry-incubator/eirini-ci.git"
-    git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git"
+    git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git" "" develop
     git_clone "git@github.com:cloudfoundry-incubator/eirini-staging.git"
     git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
     git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
@@ -172,9 +172,10 @@ clone_git_repos() {
 }
 
 git_clone() {
-  local url path name
+  local url path name branch
   url=$1
   path=${2:-""}
+  branch=${3:-""}
 
   if [ -z "$path" ]; then
     name=$(echo "$url" | sed 's/\.git//g' | cut -d / -f 2)
@@ -190,6 +191,10 @@ git_clone() {
 
   if [ -f "$path/.gitmodules" ]; then
     git -C "$path" submodule update --init --recursive
+  fi
+
+  if [ -n "$branch" ]; then
+    git -C "$path" switch "$branch"
   fi
 }
 
