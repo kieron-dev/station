@@ -39,9 +39,9 @@ main() {
   install_nvim_extensions
   install_rbenv
   install_cred_alert
+  configure_dotfiles
   clone_git_repos
   install_git_hooks
-  configure_dotfiles
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
@@ -162,7 +162,6 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry-incubator/eirini-staging.git"
     git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
     git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
-    git_clone "git@github.com:eirini-forks/eirini-home.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
     git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
     git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
@@ -207,10 +206,13 @@ install_git_hooks() {
 
 configure_dotfiles() {
   echo ">>> Installing eirini-home"
+  git_clone "git@github.com:eirini-forks/eirini-home.git"
   pushd "$HOME/workspace/eirini-home"
   {
     git checkout master
     ./install.sh
+    git solo ae # initialise git-duet
+    git init    # install git-duet hooks on eirini-home
   }
   popd
 }
