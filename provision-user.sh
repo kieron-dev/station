@@ -152,8 +152,6 @@ install_rbenv() {
 clone_git_repos() {
   echo ">>> Cloning our Git repositories"
 
-  ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
-
   mkdir -p "$HOME/workspace"
   pushd "$HOME/workspace"
   {
@@ -211,6 +209,9 @@ install_git_hooks() {
 
 configure_dotfiles() {
   echo ">>> Installing eirini-home"
+
+  ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
+
   git_clone "git@github.com:eirini-forks/eirini-home.git"
   pushd "$HOME/workspace/eirini-home"
   {
