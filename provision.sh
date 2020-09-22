@@ -40,6 +40,7 @@ main() {
   install_packages
   install_snaps
   install_nodejs
+  install_telepresence
   install_nvim
   install_npm_packages
   install_gcloud_cli
