@@ -217,8 +217,8 @@ configure_dotfiles() {
   {
     git checkout master
     ./install.sh
-    git solo ae # initialise git-duet
-    git init    # install git-duet hooks on eirini-home
+    git duet # initialise git-duet
+    git init # install git-duet hooks on eirini-home
   }
   popd
 }
