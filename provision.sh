@@ -49,6 +49,7 @@ main() {
   install_misc_tools
   install_k14s_tools
   install_delta
+  install_github_cli
 }
 
 disable_ipv6() {
@@ -221,6 +222,14 @@ install_delta() {
   mv delta-0.1.1-x86_64-unknown-linux-musl/delta /usr/bin
   rm -fr delta-0.1.1-x86_64-unknown-linux-musl /tmp/delta.tar.gz
   set +x
+}
+
+install_github_cli() {
+  echo ">>> Installing Github CLI"
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+  sudo apt-add-repository https://cli.github.com/packages
+  sudo apt update
+  sudo apt install gh
 }
 
 main $@
