@@ -67,8 +67,13 @@ class SetHostTimezonePlugin < Vagrant.plugin('2')
         if $?.exitstatus != 0
           timezone = nil
           if Vagrant::Util::Platform.darwin?
-            puts "🙄 It looks like you are a Mac user, I might need to sudo to get your timezone, can you believe that!?"
-            timezone =`sudo systemsetup -gettimezone | awk '{ print $3 }'`.strip
+            puts "🙄 It looks like you are a Mac user, let me try to figure your timezone out...."
+            timezone=`realpath --relative-to=/var/db/timezone/zoneinfo $(readlink /etc/localtime)`.strip
+
+            if $?.exitstatus != 0
+              puts "🤬 I might need to sudo to get your timezone, can you believe that!?"
+              timezone =`sudo systemsetup -gettimezone | awk '{ print $3 }'`.strip
+            end
           end
 
           if timezone.nil? || timezone.empty?
