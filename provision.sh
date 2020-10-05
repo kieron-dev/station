@@ -207,6 +207,9 @@ install_misc_tools() {
 install_k14s_tools() {
   echo ">>> Installing the k14s tools"
   curl -sL https://k14s.io/install.sh | bash
+
+  echo ">>> Installing pack"
+  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.14.1/pack-v0.14.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
 }
 
 install_npm_packages() {
