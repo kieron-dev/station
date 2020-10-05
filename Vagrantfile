@@ -50,3 +50,47 @@ Vagrant.configure("2") do |config|
     override.ssh.keys_only = false
   end
 end
+
+class SetHostTimezonePlugin < Vagrant.plugin('2')
+  class SetHostTimezoneAction
+    def initialize(app, env)
+      @app = app
+    end
+
+    def call(env)
+      @app.call(env)
+
+      machine = env[:machine]
+
+      if machine.guest.capability?(:change_timezone)
+        timezone =`cat /etc/timezone 2>/dev/null`.strip
+        if $?.exitstatus != 0
+          timezone = nil
+          if Vagrant::Util::Platform.darwin?
+            puts "🙄 It looks like you are a Mac user, I might need to sudo to get your timezone, can you believe that!?"
+            timezone =`sudo systemsetup -gettimezone | awk '{ print $3 }'`.strip
+          end
+
+          if timezone.nil? || timezone.empty?
+            # Thanks to https://stackoverflow.com/a/46778032
+            puts "🙁 Alas, human, I did my best to figure out your timezone, but I failed!\nFalling back to timezone offset...\n"
+            offset = ((Time.zone_offset(Time.now.zone) / 60) / 60)
+            timezone_suffix = offset >= 0 ? "-#{offset.to_s}" : "+#{offset.to_s}"
+            timezone = 'Etc/GMT' + timezone_suffix
+          end
+        end
+        puts "🌐 Setting timezone to " + timezone + "...\n"
+        machine.guest.capability(:change_timezone, timezone)
+      else
+        puts "🤔 Hmmmm, it seems the guest VM does not support the change_timezone capability..."
+      end
+
+    end
+  end
+
+  name 'set-host-timezone'
+
+  action_hook 'set-host-timezone' do |hook|
+    hook.before Vagrant::Action::Builtin::Provision, SetHostTimezoneAction
+  end
+end
