@@ -36,6 +36,7 @@ main() {
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
   disable_ipv6
+  disable_systemd_resolved_service
   setup_locale
   install_packages
   install_snaps
@@ -56,6 +57,27 @@ disable_ipv6() {
   echo ">>> Disabling IPv6"
   sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+}
+
+disable_systemd_resolved_service() {
+  local hostname
+
+  echo ">>> Disabling systemd-resolved service..."
+  systemctl disable systemd-resolved.service
+  systemctl stop systemd-resolved.service
+  unlink /etc/resolv.conf
+  cat >/etc/resolv.conf <<EOF
+nameserver 8.8.8.8
+options edns0
+search c.cff-eirini-peace-pods.internal google.internal
+EOF
+  hostname=$(cat /etc/hostname)
+
+  # manually resolve hostname to localhost. This is normally done by
+  # the systemd-resolved service
+  if ! grep "$hostname" /etc/hosts >/dev/null 2>&1; then
+    echo "127.0.0.1 $hostname" >>/etc/hosts
+  fi
 }
 
 setup_locale() {
