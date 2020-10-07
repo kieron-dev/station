@@ -39,8 +39,8 @@ main() {
   install_nvim_extensions
   install_rbenv
   install_cred_alert
-  configure_dotfiles
   clone_git_repos
+  configure_dotfiles
   install_git_hooks
   install_vim_plugins
   install_misc_tools
@@ -159,12 +159,13 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git" "" develop
     git_clone "git@github.com:cloudfoundry-incubator/eirini-staging.git"
     git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
-    git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
-    git_clone "git@github.com:eirini-forks/eirini-station.git"
-    git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
-    git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
     git_clone "git@github.com:cloudfoundry/capi-k8s-release.git"
     git_clone "git@github.com:cloudfoundry/capi-release.git"
+    git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
+    git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
+    git_clone "git@github.com:eirini-forks/eirini-home.git"
+    git_clone "git@github.com:eirini-forks/eirini-station.git"
+    git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
   }
   popd
 }
@@ -212,7 +213,6 @@ configure_dotfiles() {
 
   ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
 
-  git_clone "git@github.com:eirini-forks/eirini-home.git"
   pushd "$HOME/workspace/eirini-home"
   {
     git checkout master
