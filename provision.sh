@@ -162,15 +162,18 @@ install_gcloud_cli() {
 
 install_cf_cli() {
   echo ">>> Installing the Cloud Foundry CLI"
+
+  echo ">>> Installing v6"
+  local tmpdir="$(mktemp -d)"
+  trap "rm -rf $tmpdir" EXIT
+  wget -q -O - "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=6.49.0" | tar xz -C "$tmpdir" cf
+  mv "$tmpdir/cf" "/usr/bin/cf6"
+
+  echo ">>> Installing v7"
   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
-  apt-get -y install cf-cli=6.49.0
-  sudo tee /etc/apt/preferences.d/cf-cli >/dev/null <<EOF
-Package: cf-cli
-Pin: version 6.49*
-Pin-Priority: 1000
-EOF
+  apt-get -y install cf7-cli
 }
 
 install_misc_tools() {
