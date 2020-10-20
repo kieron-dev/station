@@ -36,6 +36,7 @@ main() {
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
   disable_ipv6
+  add_swap
   setup_locale
   install_packages
   install_snaps
@@ -56,6 +57,21 @@ disable_ipv6() {
   echo ">>> Disabling IPv6"
   sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+}
+
+add_swap() {
+  local swapsize=4096
+
+  if ! grep -q "swapfile" /etc/fstab; then
+    echo 'swapfile not found. Adding swapfile.'
+    fallocate -l ${swapsize}M /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo '/swapfile none swap defaults 0 0' >>/etc/fstab
+  else
+    echo 'swapfile found. No changes made.'
+  fi
 }
 
 setup_locale() {

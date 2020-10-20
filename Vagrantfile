@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
     gcp.google_json_key_location = ENV['EIRINI_STATION_GCP_JSON_KEY_PATH']
     gcp.image_family = 'ubuntu-2004-lts'
     gcp.machine_type = 'n1-standard-8'
-    gcp.disk_size = 50
+    gcp.disk_size = 100
     gcp.zone = 'europe-west2-a'
     gcp.name = "#{username}-eirini-station"
 
