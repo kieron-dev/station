@@ -216,6 +216,7 @@ configure_dotfiles() {
   pushd "$HOME/workspace/eirini-home"
   {
     git checkout master
+    git pull -r
     ./install.sh
     GIT_DUET_CO_AUTHORED_BY=1 git duet # initialise git-duet
     git init                           # install git-duet hooks on eirini-home
