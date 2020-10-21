@@ -47,7 +47,6 @@ main() {
   install_pure_zsh_theme
   install_tmux_plugin_manager
   install_zsh_autosuggestions
-  compile_authorized_keys
   init_pass_store
   switch_to_zsh
 }
@@ -259,22 +258,6 @@ install_misc_tools() {
 
 go_get() {
   /usr/local/go/bin/go get "$@"
-}
-
-compile_authorized_keys() {
-  echo ">>> Generating ~/.ssh/authorized_keys"
-
-  local authorized_keys keys key
-  authorized_keys="$HOME/.ssh/authorized_keys"
-
-  while read -r gh_name; do
-    keys=$(curl -sL "https://api.github.com/users/$gh_name/keys" | jq -r ".[].key")
-    echo "$keys $gh_name" >>"$HOME/.ssh/authorized_keys"
-  done <"$HOME/workspace/eirini-home/team-github-ids"
-
-  # remove duplicate keys
-  keys=$(cat "$authorized_keys")
-  echo "$keys" | sort | uniq >"$authorized_keys"
 }
 
 init_pass_store() {
