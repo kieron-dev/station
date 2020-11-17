@@ -139,7 +139,6 @@ install_packages() {
 install_snaps() {
   echo ">>> Installing the Snap packages"
   snap install shfmt
-  snap install yq
   snap install lolcat
 }
 
@@ -224,6 +223,9 @@ install_misc_tools() {
 
   echo ">>> Installing skaffold"
   curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && sudo install skaffold /usr/local/bin/ && rm -f skaffold
+
+  echo ">>> Installing yq"
+  curl -sLo yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && sudo install yq /usr/local/bin/ && rm -f yq
 }
 
 install_k14s_tools() {
