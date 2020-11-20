@@ -51,6 +51,7 @@ main() {
   install_k14s_tools
   install_delta
   install_github_cli
+  install_helm3
 }
 
 disable_ipv6() {
@@ -257,6 +258,14 @@ install_github_cli() {
   sudo apt-add-repository https://cli.github.com/packages
   sudo apt update
   sudo apt install gh
+}
+
+install_helm3() {
+  echo ">>> Installing Helm3"
+  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 &&
+    chmod 700 get_helm.sh &&
+    BINARY_NAME=helm3 ./get_helm.sh &&
+    rm -f ./get_helm.sh
 }
 
 main $@
