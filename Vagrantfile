@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
     gcp.image_family = 'ubuntu-2004-lts'
     gcp.machine_type = 'n1-standard-8'
     gcp.disk_size = 100
+    gcp.disk_type = "pd-ssd"
     gcp.zone = 'europe-west2-a'
     gcp.name = "#{username}-eirini-station"
 
