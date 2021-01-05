@@ -217,7 +217,7 @@ install_misc_tools() {
   curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.2.1/bosh-cli-6.2.1-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
 
   echo ">>> Installing skaffold"
-  curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/v1.16.0/skaffold-linux-amd64 && sudo install skaffold /usr/local/bin/ && rm -f skaffold
+  curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && sudo install skaffold /usr/local/bin/ && rm -f skaffold
 
   echo ">>> Installing yq"
   curl -sLo yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && sudo install yq /usr/local/bin/ && rm -f yq
