@@ -32,7 +32,6 @@ main() {
   echo ">>> Installing everything..."
   mkdir_home_user_bin
   install_ibmcloud_cli
-  setup_helm_client
   install_gotools
   install_ohmyzsh
   install_vim_plug
@@ -69,11 +68,6 @@ install_ibmcloud_cli() {
     curl -sL https://ibm.biz/idt-installer | bash
     ibmcloud plugin install kubernetes-service -f
   fi
-}
-
-setup_helm_client() {
-  echo ">>> Setting up the Helm client"
-  helm init --client-only
 }
 
 install_gotools() {
