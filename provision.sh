@@ -48,7 +48,7 @@ main() {
   install_golang
   install_cf_cli
   install_misc_tools
-  install_k14s_tools
+  install_carvel_tools
   install_delta
   install_github_cli
   install_helm3
@@ -223,9 +223,9 @@ install_misc_tools() {
   curl -sLo yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && sudo install yq /usr/local/bin/ && rm -f yq
 }
 
-install_k14s_tools() {
-  echo ">>> Installing the k14s tools"
-  curl -sL https://k14s.io/install.sh | bash
+install_carvel_tools() {
+  echo ">>> Installing the carvel tools"
+  curl -sL https://carvel.dev/install.sh | bash
 
   echo ">>> Installing pack"
   curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.14.1/pack-v0.14.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
