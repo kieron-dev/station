@@ -228,7 +228,7 @@ install_carvel_tools() {
   curl -sL https://carvel.dev/install.sh | bash
 
   echo ">>> Installing pack"
-  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.14.1/pack-v0.14.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
+  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.16.0/pack-v0.16.0-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
 }
 
 install_npm_packages() {
