@@ -155,10 +155,23 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry/capi-k8s-release.git"
     git_clone "git@github.com:cloudfoundry/capi-release.git"
     git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
+    add_remote cf-for-k8s ef "git@github.com:eirini-forks/cf-for-k8s.git"
     git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
   }
   popd
+}
+
+add_remote() {
+  local path remote_uri remote_name
+  path="$1"
+  remote_name="$2"
+  remote_uri="$3"
+
+  if ! git -C "$path" remote -v | grep -q "^$remote_name\b"; then
+    git -C "$path" remote add "$remote_name" "$remote_uri"
+    git -C "$path" fetch "$remote_name"
+  fi
 }
 
 git_clone() {
