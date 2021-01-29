@@ -40,7 +40,6 @@ main() {
   install_cred_alert
   configure_dotfiles
   clone_git_repos
-  install_git_hooks
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
@@ -199,17 +198,6 @@ git_clone() {
   if [ -n "$branch" ]; then
     git -C "$path" switch "$branch"
   fi
-}
-
-install_git_hooks() {
-  for repo in "eirini" "eirini-staging" "eirini-release"; do
-    pushd "$HOME/workspace/$repo"
-    {
-      cp git-hooks/* .git/hooks/
-      git init
-    }
-    popd
-  done
 }
 
 configure_dotfiles() {
