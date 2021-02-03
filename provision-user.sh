@@ -38,8 +38,8 @@ main() {
   install_nvim_extensions
   install_rbenv
   install_cred_alert
-  configure_dotfiles
   clone_git_repos
+  configure_dotfiles
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
