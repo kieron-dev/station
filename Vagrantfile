@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
     p.privileged = false
   end
 
+  home = ENV['HOME']
   config.vm.provider "virtualbox" do |vb, override|
     vb.name = 'eirini-station'
     vb.memory = ENV.fetch('EIRINI_STATION_MEMORY', '8192').to_i
@@ -28,7 +29,7 @@ Vagrant.configure("2") do |config|
       "en0: Wi-Fi (Wireless)",
     ]
 
-    override.ssh.extra_args = ["-R", "/home/vagrant/.gnupg/S.gpg-agent:~/.gnupg/S.gpg-agent.extra"]
+    override.ssh.extra_args = ["-R", "/home/vagrant/.gnupg/S.gpg-agent-vagrant:#{home}/.gnupg/S.gpg-agent.extra"]
   end
 
   config.vm.provider "google" do |gcp, override|
@@ -49,7 +50,7 @@ Vagrant.configure("2") do |config|
 
     override.ssh.username = username
     override.ssh.keys_only = false
-    override.ssh.extra_args = ["-R", "/home/#{username}/.gnupg/S.gpg-agent:~/.gnupg/S.gpg-agent.extra"]
+    override.ssh.extra_args = ["-R", "/home/#{username}/.gnupg/S.gpg-agent-#{username}:#{home}/.gnupg/S.gpg-agent.extra"]
   end
 end
 
