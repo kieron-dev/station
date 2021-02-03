@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+bold=$(printf "\033[1m")
+normal=$(printf "\033[0m")
+red=$(printf "\033[31m")
+
 readonly SCRIPT_DIR="$(cd -P "$(dirname $(realpath "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)"
 readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-""}"
 USAGE=$(
@@ -38,7 +42,7 @@ connect_to_station() {
   local gcloud_out gcloud_header running_stations selected_station station_name
   station_name="$1"
 
-  echo "Finding running machine(s). This may take a few seconds..."
+  echo "${bold}Finding running stations(s). This may take a few seconds...${normal}"
   gcloud_out=$(gcloud --project cff-eirini-peace-pods compute instances list --filter "name~${station_name}-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
   gcloud_header=$(echo "$gcloud_out" | head -1)
   running_stations=$(echo "$gcloud_out" | tail -n+2)
@@ -80,13 +84,13 @@ main() {
         exit 0
         ;;
       \?)
-        echo "Invalid option: $OPTARG" 1>&2
+        echo "${bold}${red}Invalid option: ${OPTARG}${normal}" 1>&2
         cat "$SCRIPT_DIR/pair-connect.ascii"
         echo "$USAGE"
         exit 1
         ;;
       :)
-        echo "Invalid option: $OPTARG requires an argument" 1>&2
+        echo "${bold}${red}Invalid option: $OPTARG requires an argument${normal}" 1>&2
         cat "$SCRIPT_DIR/pair-connect.ascii"
         echo "$USAGE"
         exit 1
@@ -97,10 +101,11 @@ main() {
 
   if [[ -z "$username" ]]; then
     if [[ -z "$EIRINI_STATION_USERNAME" ]]; then
-      echo "Username required to connect."
-      echo "Please supply your eirini station username with -u or EIRINI_STATION_USERNAME"
+      echo "${bold}${red}Username required to connect.${normal}"
+      echo "${bold}${red}Please supply your eirini station username with -u or EIRINI_STATION_USERNAME${normal}"
       echo
       echo "$USAGE"
+      exit 1
     fi
     username="$EIRINI_STATION_USERNAME"
   fi
