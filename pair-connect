@@ -1,0 +1,118 @@
+#!/bin/bash
+
+set -euo pipefail
+
+readonly SCRIPT_DIR="$(cd -P "$(dirname $(realpath "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)"
+readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-""}"
+USAGE=$(
+  cat <<EOF
+Usage: pair-connect [options]
+Options:
+  -i  install pair-connect in /usr/local/bin
+  -s  station name. Can be username-eirini-station or just username
+  -u  username used for naming gpg socket
+  -a  station address. Overrides -s
+  -h  this help
+Environment variables:
+  EIRINI_STATION_USERNAME  can be used instead of setting the -u flag
+Examples:
+  pair-connect  # user will be prompted to pick a running station
+  pair-connect -c user1-eirini-station -u user2
+  pair-connect -a user1@127.0.0.1 -u user2
+  pair-connect -i
+
+EOF
+)
+
+connect() {
+  local station_user station_host username
+  station_user="$1"
+  station_host="$2"
+  username="$3"
+
+  ssh -A -R /home/"$username"/.gnupg/S.gpg-agent-"$username":$HOME/.gnupg/S.gpg-agent.extra "$station_user@$station_host"
+  exit "$?"
+}
+
+connect_to_station() {
+  local gcloud_out gcloud_header running_stations selected_station station_name
+  station_name="$1"
+
+  echo "Finding running machine(s). This may take a few seconds..."
+  gcloud_out=$(gcloud --project cff-eirini-peace-pods compute instances list --filter "name~${station_name}-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
+  gcloud_header=$(echo "$gcloud_out" | head -1)
+  running_stations=$(echo "$gcloud_out" | tail -n+2)
+  selected_station="$(echo "$running_stations" | fzf --header="$gcloud_header")"
+
+  local station_user station_host
+  station_user="$(echo $selected_station | awk '{print $1}' | sed 's/-eirini-station//g')"
+  station_host="$(echo $selected_station | awk '{print $2}')"
+
+  connect "$station_user" "$station_host" "$username"
+}
+
+main() {
+  local station_name username station_address
+  station_name=""
+  station_address=""
+  username=""
+
+  while getopts "iha:s:u:" opt; do
+    case ${opt} in
+      a)
+        station_address="$OPTARG"
+        ;;
+      i)
+        echo "Installing pair-connect in /usr/local/bin. Sudo password may be required..."
+        sudo ln -s "$SCRIPT_DIR/pair-connect" /usr/local/bin/pair-connect
+        echo "pair-connect installed in /usr/local/bin"
+        exit 1
+        ;;
+      s)
+        station_name="$OPTARG"
+        ;;
+      u)
+        username="$OPTARG"
+        ;;
+      h)
+        cat "$SCRIPT_DIR/pair-connect.ascii"
+        echo "$USAGE"
+        exit 0
+        ;;
+      \?)
+        echo "Invalid option: $OPTARG" 1>&2
+        cat "$SCRIPT_DIR/pair-connect.ascii"
+        echo "$USAGE"
+        exit 1
+        ;;
+      :)
+        echo "Invalid option: $OPTARG requires an argument" 1>&2
+        cat "$SCRIPT_DIR/pair-connect.ascii"
+        echo "$USAGE"
+        exit 1
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  if [[ -z "$username" ]]; then
+    if [[ -z "$EIRINI_STATION_USERNAME" ]]; then
+      echo "Username required to connect."
+      echo "Please supply your eirini station username with -u or EIRINI_STATION_USERNAME"
+      echo
+      echo "$USAGE"
+    fi
+    username="$EIRINI_STATION_USERNAME"
+  fi
+
+  if [[ -n "$station_address" ]]; then
+    local station_host station_user
+    station_user="$(echo $station_address | awk -F '@' '{print $1}')"
+    station_host="$(echo $station_address | awk -F '@' '{print $2}')"
+    connect "$station_user" "$station_host" "$username"
+  fi
+
+  connect_to_station "$station_name" "$username"
+}
+
+main "$@"
