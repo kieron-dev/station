@@ -39,13 +39,15 @@ connect() {
 }
 
 connect_to_station() {
-  local gcloud_out gcloud_header running_stations selected_station station_name
+  local gcloud_out gcloud_header running_stations station_name
   station_name="$1"
 
-  echo "${bold}Finding running stations(s). This may take a few seconds...${normal}"
+  echo "${bold}Finding running station(s). This may take a few seconds...${normal}"
   gcloud_out=$(gcloud --project cff-eirini-peace-pods compute instances list --filter "name~${station_name}-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
   gcloud_header=$(echo "$gcloud_out" | head -1)
   running_stations=$(echo "$gcloud_out" | tail -n+2)
+
+  local selected_station
   selected_station="$(echo "$running_stations" | fzf --header="$gcloud_header")"
 
   local station_user station_host
