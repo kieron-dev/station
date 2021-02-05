@@ -38,8 +38,8 @@ main() {
   install_nvim_extensions
   install_rbenv
   install_cred_alert
-  clone_git_repos
   configure_dotfiles
+  clone_git_repos
   install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
@@ -155,7 +155,6 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry/capi-release.git"
     git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
     add_remote cf-for-k8s ef "git@github.com:eirini-forks/cf-for-k8s.git"
-    git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
   }
   popd
@@ -206,6 +205,7 @@ configure_dotfiles() {
   ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
 
   git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
+  git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
   git_clone "git@github.com:eirini-forks/eirini-home.git"
 
   pushd "$HOME/workspace/eirini-home"
