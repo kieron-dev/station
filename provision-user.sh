@@ -260,7 +260,6 @@ init_pass_store() {
   echo ">>> Initialising the pass store"
   mkdir -p "$HOME/.password-store"
   ln -sfn "$HOME/workspace/eirini-private-config/pass/eirini" "$HOME/.password-store/"
-  pass init "$(gpg --list-secret-keys | grep -o --color=never "[^<]\+@[^>]\+")"
 }
 
 install_pure_zsh_theme() {
