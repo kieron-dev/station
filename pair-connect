@@ -34,18 +34,20 @@ EOF
 )
 
 connect() {
-  local station_user station_host username
+  local station_user station_host username ssh_port
   station_user="$1"
   station_host="$2"
   username="$3"
+  ssh_port="$4"
 
-  ssh -A -R /home/"$username"/.gnupg/S.gpg-agent-"$username":$HOME/.gnupg/S.gpg-agent.extra "$station_user@$station_host"
+  ssh -A -R /home/"$station_user"/.gnupg/S.gpg-agent-"$username":$HOME/.gnupg/S.gpg-agent.extra -p "$ssh_port" "$station_user@$station_host"
 }
 
 try_connect_from_cache() {
-  local station_name station_host username
+  local station_name station_host username ssh_port
   station_name="$1"
   username="$2"
+  ssh_port="$3"
 
   if ! [[ -f "$CACHE_FILE" ]]; then
     echo "${yellow}Cache file does not exist${normal}"
@@ -68,10 +70,10 @@ try_connect_from_cache() {
   station_user="$(echo $station_cache | awk '{print $1}')"
   station_host="$(echo $station_cache | awk '{print $2}')"
 
-  trap "echo Giving up trying to connect" INT
+  trap "echo ${bold}${yellow}Giving up trying to connect${normal}" INT
   echo "Trying to connect from cache. This might not work!"
   echo "Press Ctrl-C to stop..."
-  connect "$station_user" "$station_host" "$username"
+  connect "$station_user" "$station_host" "$username" "$ssh_port"
   if [[ "$?" -eq 0 ]]; then
     exit 0
   fi
@@ -99,12 +101,13 @@ update_cache() {
 }
 
 connect_to_station() {
-  local gcloud_out gcloud_header running_stations station_name username
+  local gcloud_out gcloud_header running_stations station_name username ssh_port
   station_name="$1"
   username="$2"
+  ssh_port="$3"
 
   if [[ -n "$station_name" ]]; then
-    try_connect_from_cache "$station_name" "$username"
+    try_connect_from_cache "$station_name" "$username" "$ssh_port"
   fi
 
   echo "${bold}Finding running station(s). This may take a few seconds...${normal}"
@@ -126,20 +129,24 @@ connect_to_station() {
 
   update_cache "$station_user" "$station_host"
 
-  connect "$station_user" "$station_host" "$username"
+  connect "$station_user" "$station_host" "$username" "$ssh_port"
   exit "$?"
 }
 
 main() {
-  local station_name username station_address
+  local station_name username station_address ssh_port
+  ssh_port=22
   station_name=""
   station_address=""
   username=""
 
-  while getopts "iha:s:u:" opt; do
+  while getopts "iha:p:s:u:" opt; do
     case ${opt} in
       a)
         station_address="$OPTARG"
+        ;;
+      p)
+        ssh_port="$OPTARG"
         ;;
       i)
         echo "Installing pair-connect in /usr/local/bin. Sudo password may be required..."
@@ -189,11 +196,11 @@ main() {
     local station_host station_user
     station_user="$(echo $station_address | awk -F '@' '{print $1}')"
     station_host="$(echo $station_address | awk -F '@' '{print $2}')"
-    connect "$station_user" "$station_host" "$username"
+    connect "$station_user" "$station_host" "$username" "$ssh_port"
     exit "$?"
   fi
 
-  connect_to_station "$station_name" "$username"
+  connect_to_station "$station_name" "$username" "$ssh_port"
 }
 
 main "$@"
