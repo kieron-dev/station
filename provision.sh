@@ -37,6 +37,7 @@ main() {
   echo ">>> Installing everything..."
   disable_ipv6
   add_swap
+  add_sshd_config
   setup_locale
   install_packages
   install_snaps
@@ -73,6 +74,11 @@ add_swap() {
   else
     echo 'swapfile found. No changes made.'
   fi
+}
+
+add_sshd_config() {
+  echo "StreamLocalBindUnlink yes" >/etc/ssh/sshd_config.d/streamlocalbindunlink.conf
+  sudo systemctl restart ssh.service
 }
 
 setup_locale() {
