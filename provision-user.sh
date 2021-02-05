@@ -268,6 +268,13 @@ install_pure_zsh_theme() {
   git_clone "https://github.com/sindresorhus/pure.git" "$HOME/.zsh/pure"
   pushd "$HOME/.zsh/pure"
   {
+    # pure have switched from `master` to `main` for their main branch
+    # TODO remove this once everyone has been migrated
+    if git show-ref --quiet refs/heads/master
+    then
+      git branch -m master main
+      git branch --set-upstream-to=origin/main
+    fi
     git pull -r
   }
   popd
