@@ -103,7 +103,9 @@ connect_to_station() {
   station_name="$1"
   username="$2"
 
-  try_connect_from_cache "$station_name" "$username"
+  if [[ -n "$station_name" ]]; then
+    try_connect_from_cache "$station_name" "$username"
+  fi
 
   echo "${bold}Finding running station(s). This may take a few seconds...${normal}"
   gcloud_out=$(gcloud --project "$EIRINI_GCLOUD_PROJECT" compute instances list --filter "name~${station_name}.*-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
