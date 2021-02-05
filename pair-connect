@@ -1,13 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
-
 bold=$(printf "\033[1m")
 normal=$(printf "\033[0m")
 red=$(printf "\033[31m")
+yellow=$(printf "\033[33m")
 
 readonly SCRIPT_DIR="$(cd -P "$(dirname $(realpath "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)"
+readonly EIRINI_GCLOUD_PROJECT="cff-eirini-peace-pods"
 readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-""}"
+readonly CACHE_DIR="$HOME/.config/pair-connect"
+readonly CACHE_FILE="$CACHE_DIR/cache"
+
 USAGE=$(
   cat <<EOF
 Usage: pair-connect [options]
@@ -19,6 +22,8 @@ Options:
   -h  this help
 Environment variables:
   EIRINI_STATION_USERNAME  can be used instead of setting the -u flag
+Files:
+  ~/.config/pair-connect/cache  location of cache file
 Examples:
   pair-connect  # user will be prompted to pick a running station
   pair-connect -c user1-eirini-station -u user2
@@ -35,17 +40,80 @@ connect() {
   username="$3"
 
   ssh -A -R /home/"$username"/.gnupg/S.gpg-agent-"$username":$HOME/.gnupg/S.gpg-agent.extra "$station_user@$station_host"
-  exit "$?"
+}
+
+try_connect_from_cache() {
+  local station_name station_host username
+  station_name="$1"
+  username="$2"
+
+  if ! [[ -f "$CACHE_FILE" ]]; then
+    echo "${yellow}Cache file does not exist${normal}"
+    return
+  fi
+
+  station_cache="$(grep "$station_name" "$CACHE_FILE")"
+  if [[ -z "$station_cache" ]]; then
+    echo "Station not cached yet..."
+    return
+  fi
+
+  if [[ $(echo $station_cache | wc -l) -gt 1 ]]; then
+    echo "${bold}${red}More than one station found in cache when searching for ${station_name}!${normal}"
+    echo "${bold}${red}Please select a result:${normal}"
+    station_cache="$(echo $station_cache | fzf)"
+  fi
+
+  local station_user station_host
+  station_user="$(echo $station_cache | awk '{print $1}')"
+  station_host="$(echo $station_cache | awk '{print $2}')"
+
+  trap "echo Giving up trying to connect" INT
+  echo "Trying to connect from cache. This might not work!"
+  echo "Press Ctrl-C to stop..."
+  connect "$station_user" "$station_host" "$username"
+  if [[ "$?" -eq 0 ]]; then
+    exit 0
+  fi
+}
+
+update_cache() {
+  local station_user station_host
+  station_user="$1"
+  station_host="$2"
+
+  if ! [[ -f "$CACHE_FILE" ]]; then
+    mkdir -p "$CACHE_DIR"
+    touch "$CACHE_FILE"
+  fi
+
+  station_cache="$(grep "$station_name" "$CACHE_FILE")"
+  if [[ -z "$station_cache" ]]; then
+    echo "$station_user $station_host" >>"$CACHE_FILE"
+    return
+  fi
+
+  local cache
+  cache="$(cat $CACHE_FILE)"
+  echo "$cache" | sed "s/$station_user.*/$station_user $station_host/g" >"$CACHE_FILE"
 }
 
 connect_to_station() {
-  local gcloud_out gcloud_header running_stations station_name
+  local gcloud_out gcloud_header running_stations station_name username
   station_name="$1"
+  username="$2"
+
+  try_connect_from_cache "$station_name" "$username"
 
   echo "${bold}Finding running station(s). This may take a few seconds...${normal}"
-  gcloud_out=$(gcloud --project cff-eirini-peace-pods compute instances list --filter "name~${station_name}-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
+  gcloud_out=$(gcloud --project "$EIRINI_GCLOUD_PROJECT" compute instances list --filter "name~${station_name}.*-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
   gcloud_header=$(echo "$gcloud_out" | head -1)
   running_stations=$(echo "$gcloud_out" | tail -n+2)
+
+  if [[ -z "$running_stations" ]]; then
+    echo "${bold}${red}No running stationg '$station_name' found!${normal}"
+    exit 1
+  fi
 
   local selected_station
   selected_station="$(echo "$running_stations" | fzf --header="$gcloud_header")"
@@ -54,7 +122,10 @@ connect_to_station() {
   station_user="$(echo $selected_station | awk '{print $1}' | sed 's/-eirini-station//g')"
   station_host="$(echo $selected_station | awk '{print $2}')"
 
+  update_cache "$station_user" "$station_host"
+
   connect "$station_user" "$station_host" "$username"
+  exit "$?"
 }
 
 main() {
@@ -117,6 +188,7 @@ main() {
     station_user="$(echo $station_address | awk -F '@' '{print $1}')"
     station_host="$(echo $station_address | awk -F '@' '{print $2}')"
     connect "$station_user" "$station_host" "$username"
+    exit "$?"
   fi
 
   connect_to_station "$station_name" "$username"
