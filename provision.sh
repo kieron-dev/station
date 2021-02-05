@@ -152,7 +152,7 @@ install_snaps() {
 install_golang() {
   echo ">>> Installing Golang"
   mkdir -p /usr/local/go
-  curl -sL "https://dl.google.com/go/go1.15.3.linux-amd64.tar.gz" | tar xz -C "/usr/local"
+  curl -sL "https://dl.google.com/go/go1.15.8.linux-amd64.tar.gz" | tar xz -C "/usr/local"
 }
 
 install_nodejs() {
