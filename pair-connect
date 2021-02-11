@@ -5,7 +5,7 @@ normal=$(printf "\033[0m")
 red=$(printf "\033[31m")
 yellow=$(printf "\033[33m")
 
-readonly SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+readonly SCRIPT_DIR="$(cd -P "$(dirname $(readlink "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)"
 readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-$(whoami)}"
 
 USAGE=$(
