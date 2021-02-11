@@ -6,28 +6,21 @@ red=$(printf "\033[31m")
 yellow=$(printf "\033[33m")
 
 readonly SCRIPT_DIR="$(cd -P "$(dirname $(realpath "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)"
-readonly EIRINI_GCLOUD_PROJECT="cff-eirini-peace-pods"
-readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-""}"
-readonly CACHE_DIR="$HOME/.cache/pair-connect"
-readonly CACHE_FILE="$CACHE_DIR/cache"
+readonly EIRINI_STATION_USERNAME="${EIRINI_STATION_USERNAME:-$(whoami)}"
 
 USAGE=$(
   cat <<EOF
 Usage: pair-connect [options]
 Options:
+  -a  address of station to connect to. Required. Ask your pair to run 'pssh' on their station and send you the output.
+  -p  the ssh port of the station you are connecting to. Defaults to 22.
   -i  install pair-connect in /usr/local/bin
-  -s  station name. Can be username-eirini-station or just username
-  -u  username used for naming gpg socket
-  -a  station address. Overrides -s
   -h  this help
 Environment variables:
-  EIRINI_STATION_USERNAME  can be used instead of setting the -u flag
-Files:
-  ~/.config/pair-connect/cache  location of cache file
+  EIRINI_STATION_USERNAME: your username. Used to uniquely name your gpg socket on the remote end. Defaults to the OS user
 Examples:
-  pair-connect  # user will be prompted to pick a running station
-  pair-connect -c user1-eirini-station -u user2
-  pair-connect -a user1@127.0.0.1 -u user2
+  pair-connect -a user1@127.0.0.1
+  EIRINI_STATION_USERNAME=johndoe pair-connect -a user1@127.0.0.1
   pair-connect -i
 
 EOF
@@ -43,96 +36,6 @@ connect() {
   ssh -A -R /home/"$station_user"/.gnupg/S.gpg-agent-"$username":$HOME/.gnupg/S.gpg-agent.extra -p "$ssh_port" "$station_user@$station_host"
 }
 
-try_connect_from_cache() {
-  local station_name station_host username ssh_port
-  station_name="$1"
-  username="$2"
-  ssh_port="$3"
-
-  if ! [[ -f "$CACHE_FILE" ]]; then
-    echo "${yellow}Cache file does not exist${normal}"
-    return
-  fi
-
-  station_cache="$(grep "$station_name" "$CACHE_FILE")"
-  if [[ -z "$station_cache" ]]; then
-    echo "Station not cached yet..."
-    return
-  fi
-
-  if [[ $(echo $station_cache | wc -l) -gt 1 ]]; then
-    echo "${bold}${red}More than one station found in cache when searching for ${station_name}!${normal}"
-    echo "${bold}${red}Please select a result:${normal}"
-    station_cache="$(echo $station_cache | fzf)"
-  fi
-
-  local station_user station_host
-  station_user="$(echo $station_cache | awk '{print $1}')"
-  station_host="$(echo $station_cache | awk '{print $2}')"
-
-  trap "echo ${bold}${yellow}Giving up trying to connect${normal}" INT
-  echo "Trying to connect from cache. This might not work!"
-  echo "Press Ctrl-C to stop..."
-  connect "$station_user" "$station_host" "$username" "$ssh_port"
-  if [[ "$?" -eq 0 ]]; then
-    exit 0
-  fi
-}
-
-update_cache() {
-  local station_user station_host
-  station_user="$1"
-  station_host="$2"
-
-  if ! [[ -f "$CACHE_FILE" ]]; then
-    mkdir -p "$CACHE_DIR"
-    touch "$CACHE_FILE"
-  fi
-
-  station_cache="$(grep "$station_name" "$CACHE_FILE")"
-  if [[ -z "$station_cache" ]]; then
-    echo "$station_user $station_host" >>"$CACHE_FILE"
-    return
-  fi
-
-  local cache
-  cache="$(cat $CACHE_FILE)"
-  echo "$cache" | sed "s/$station_user.*/$station_user $station_host/g" >"$CACHE_FILE"
-}
-
-connect_to_station() {
-  local gcloud_out gcloud_header running_stations station_name username ssh_port
-  station_name="$1"
-  username="$2"
-  ssh_port="$3"
-
-  if [[ -n "$station_name" ]]; then
-    try_connect_from_cache "$station_name" "$username" "$ssh_port"
-  fi
-
-  echo "${bold}Finding running station(s). This may take a few seconds...${normal}"
-  gcloud_out=$(gcloud --project "$EIRINI_GCLOUD_PROJECT" compute instances list --filter "name~${station_name}.*-eirini-station AND status~RUNNING" --format='table(NAME,EXTERNAL_IP)')
-  gcloud_header=$(echo "$gcloud_out" | head -1)
-  running_stations=$(echo "$gcloud_out" | tail -n+2)
-
-  if [[ -z "$running_stations" ]]; then
-    echo "${bold}${red}No running stationg '$station_name' found!${normal}"
-    exit 1
-  fi
-
-  local selected_station
-  selected_station="$(echo "$running_stations" | fzf --header="$gcloud_header")"
-
-  local station_user station_host
-  station_user="$(echo $selected_station | awk '{print $1}' | sed 's/-eirini-station//g')"
-  station_host="$(echo $selected_station | awk '{print $2}')"
-
-  update_cache "$station_user" "$station_host"
-
-  connect "$station_user" "$station_host" "$username" "$ssh_port"
-  exit "$?"
-}
-
 main() {
   local station_name username station_address ssh_port
   ssh_port=22
@@ -140,7 +43,7 @@ main() {
   station_address=""
   username=""
 
-  while getopts "iha:p:s:u:" opt; do
+  while getopts "iha:p:" opt; do
     case ${opt} in
       a)
         station_address="$OPTARG"
@@ -153,12 +56,6 @@ main() {
         sudo ln -s "$SCRIPT_DIR/pair-connect" /usr/local/bin/pair-connect
         echo "pair-connect installed in /usr/local/bin"
         exit 1
-        ;;
-      s)
-        station_name="$OPTARG"
-        ;;
-      u)
-        username="$OPTARG"
         ;;
       h)
         cat "$SCRIPT_DIR/pair-connect.ascii"
@@ -181,6 +78,15 @@ main() {
   done
   shift $((OPTIND - 1))
 
+  if [[ -z "$station_address" ]]; then
+    echo "${bold}${red}Station address is required to connect.${normal}"
+    echo "${bold}${red}Please supply the address of the station that you want to connect to!${normal}"
+    echo "${bold}${red}Ask your pair to run 'pssh' on their station and send you the output.${normal}"
+    echo
+    echo "$USAGE"
+    exit 1
+  fi
+
   if [[ -z "$username" ]]; then
     if [[ -z "$EIRINI_STATION_USERNAME" ]]; then
       echo "${bold}${red}Username required to connect.${normal}"
@@ -192,15 +98,10 @@ main() {
     username="$EIRINI_STATION_USERNAME"
   fi
 
-  if [[ -n "$station_address" ]]; then
-    local station_host station_user
-    station_user="$(echo $station_address | awk -F '@' '{print $1}')"
-    station_host="$(echo $station_address | awk -F '@' '{print $2}')"
-    connect "$station_user" "$station_host" "$username" "$ssh_port"
-    exit "$?"
-  fi
-
-  connect_to_station "$station_name" "$username" "$ssh_port"
+  local station_host station_user
+  station_user="$(echo $station_address | awk -F '@' '{print $1}')"
+  station_host="$(echo $station_address | awk -F '@' '{print $2}')"
+  connect "$station_user" "$station_host" "$username" "$ssh_port"
 }
 
 main "$@"

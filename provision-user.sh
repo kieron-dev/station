@@ -270,8 +270,7 @@ install_pure_zsh_theme() {
   {
     # pure have switched from `master` to `main` for their main branch
     # TODO remove this once everyone has been migrated
-    if git show-ref --quiet refs/heads/master
-    then
+    if git show-ref --quiet refs/heads/master; then
       git branch -m master main
       git branch --set-upstream-to=origin/main
     fi
