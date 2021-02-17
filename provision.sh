@@ -215,7 +215,7 @@ install_misc_tools() {
   curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 
   echo ">>> Installing terraform"
-  curl -sL "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip" -o /tmp/terraform.zip
+  curl -sL "https://releases.hashicorp.com/terraform/0.14.6/terraform_0.14.6_linux_amd64.zip" -o /tmp/terraform.zip
   unzip -u /tmp/terraform.zip -d /usr/bin
   rm /tmp/terraform.zip
 
