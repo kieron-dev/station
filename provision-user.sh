@@ -46,6 +46,7 @@ main() {
   install_tmux_plugin_manager
   install_zsh_autosuggestions
   init_pass_store
+  configure_gpg
   switch_to_zsh
 }
 
@@ -282,6 +283,13 @@ install_pure_zsh_theme() {
 switch_to_zsh() {
   echo ">>> Setting Zsh as the default shell"
   sudo chsh -s /bin/zsh "$(whoami)"
+}
+
+configure_gpg() {
+  cat <<EOF >~/.gnupg/gpg.conf
+no-autostart
+pinentry-mode loopback
+EOF
 }
 
 main $@
