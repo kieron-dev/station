@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
 
     override.ssh.username = username
     override.ssh.keys_only = false
-    override.ssh.extra_args = ["-R", "/home/#{username}/.gnupg/S.gpg-agent-#{username}:#{home}/.gnupg/S.gpg-agent.extra"]
+    override.ssh.extra_args = ["-R", "/home/#{username}/.gnupg/S.gpg-agent-#{username}:#{home}/.gnupg/S.gpg-agent"]
   end
 end
 
