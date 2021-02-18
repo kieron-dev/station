@@ -22,12 +22,12 @@ In order to run the eirini-station VM you need to:
   ssh-add ~/.ssh/id_rsa
   ```
 
-## Forwarding your GPG agent to a remote stastion
+## Forwarding your GPG agent to a remote station
 
-When you crate your station your GPG key will not be copied to it for security reasons. Instead, your gpg-agent socket
-will be forwarder to the remote station so that the gpg program can access it. If you are the owner of the station you
+When you create your station your GPG key will not be copied to it for security reasons. Instead, your gpg-agent socket
+will be forwarded to the remote station so that the gpg program can access it. If you are the owner of the station you
 do not have to do anything special, but if you are joining a teammate's session and want to be able to use your GPG key
-there you need to do the socket forwarding yourself. To make this easy there is a tool calle `pair-connect`. You can
+there you need to do the socket forwarding yourself. To make this easy there is a tool called `pair-connect`. You can
 install it by running the following command:
 
 ```
