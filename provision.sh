@@ -216,7 +216,7 @@ install_misc_tools() {
 
   echo ">>> Installing terraform"
   curl -sL "https://releases.hashicorp.com/terraform/0.14.6/terraform_0.14.6_linux_amd64.zip" -o /tmp/terraform.zip
-  unzip -u /tmp/terraform.zip -d /usr/bin
+  unzip -ou /tmp/terraform.zip -d /usr/bin
   rm /tmp/terraform.zip
 
   echo ">>> Installing bosh"
