@@ -41,3 +41,26 @@ pair-connect -a user@hostname
 ```
 
 In order to find out the address of the remote session you want to join, ask your pair to run `pssh` on the station owned by them.
+
+### Switching between the GPG sockets of the station owner and a guest
+
+Since both the station owner and any pair who connected using `pair-connect` have their GPG agent sockets forwarded there needs to be
+a way to switch between all available sockets. The sockets can be found at `~/.gnupg` on the station. They are generally in the format
+`S.gpg-agent-<username>`, where `<username>` is the subject before the `@` sign in the ssh key loaded in the ssh-aget. You can view yours
+by running the following command on your host machine:
+
+```
+ssh-add -L
+```` 
+
+In order to switch to a particular user's GPG agent socket you need to run the following command on the station:
+
+```
+fix-gpg <username>
+```
+
+You can check which GPG agent socket is currently in use by running this on the station:
+
+```
+ls -la $(gpgconf --list-dir agent-socket)
+```
