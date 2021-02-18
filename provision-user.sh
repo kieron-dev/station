@@ -286,6 +286,7 @@ switch_to_zsh() {
 }
 
 configure_gpg() {
+  mkdir -p ~/.gnupg
   cat <<EOF >~/.gnupg/gpg.conf
 no-autostart
 pinentry-mode loopback
