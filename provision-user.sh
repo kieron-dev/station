@@ -91,6 +91,9 @@ install_gotools() {
 
   echo ">>> Installing gci"
   go_get -u github.com/daixiang0/gci
+
+  echo ">>> Installing gotags"
+  go_get -u github.com/jstemmer/gotags
 }
 
 install_ohmyzsh() {
