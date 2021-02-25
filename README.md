@@ -53,14 +53,8 @@ by running the following command on your host machine:
 ssh-add -L
 ```` 
 
-In order to switch to a particular user's GPG agent socket you need to run the following command on the station:
+In order to switch to a particular user's GPG agent socket you need to run `fix-gpg <username>` command on the station. If you are not sure what 
+is your user you can run `use-gpg` which will interactively prompt you to select your user from a list of all users who forwarded 
+their gpg agent sockets
 
-```
-fix-gpg <username>
-```
-
-You can check which GPG agent socket is currently in use by running this on the station:
-
-```
-ls -la $(gpgconf --list-dir agent-socket)
-```
+You can check which GPG agent socket is currently in use by running `who-gpg` on the station.
