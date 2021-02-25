@@ -57,8 +57,8 @@ main() {
 
 disable_ipv6() {
   echo ">>> Disabling IPv6"
-  sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
-  sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+  sysctl -w net.ipv6.conf.all.disable_ipv6=1
+  sysctl -w net.ipv6.conf.default.disable_ipv6=1
 }
 
 add_swap() {
@@ -78,7 +78,7 @@ add_swap() {
 
 add_sshd_config() {
   echo "StreamLocalBindUnlink yes" >/etc/ssh/sshd_config.d/streamlocalbindunlink.conf
-  sudo systemctl restart ssh.service
+  systemctl restart ssh.service
 }
 
 setup_locale() {
@@ -176,8 +176,8 @@ install_nvim() {
 
 install_gcloud_cli() {
   echo ">>> Installing the Google Cloud CLI"
-  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-  curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list
+  curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
   apt-get update
   apt-get -y install google-cloud-sdk
 }
@@ -192,8 +192,8 @@ install_cf_cli() {
   mv "$tmpdir/cf" "/usr/bin/cf6"
 
   echo ">>> Installing v7"
-  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-  echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
+  echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
   apt-get -y install cf7-cli
 }
@@ -223,10 +223,10 @@ install_misc_tools() {
   curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.2.1/bosh-cli-6.2.1-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
 
   echo ">>> Installing skaffold"
-  curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && sudo install skaffold /usr/local/bin/ && rm -f skaffold
+  curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && install skaffold /usr/local/bin/ && rm -f skaffold
 
   echo ">>> Installing yq"
-  curl -sLo yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && sudo install yq /usr/local/bin/ && rm -f yq
+  curl -sLo yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && install yq /usr/local/bin/ && rm -f yq
 }
 
 install_carvel_tools() {
@@ -234,7 +234,7 @@ install_carvel_tools() {
   curl -sL https://carvel.dev/install.sh | bash
 
   echo ">>> Installing pack"
-  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.16.0/pack-v0.16.0-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
+  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.16.0/pack-v0.16.0-linux.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
 }
 
 install_npm_packages() {
@@ -254,10 +254,10 @@ install_delta() {
 
 install_github_cli() {
   echo ">>> Installing Github CLI"
-  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-  sudo apt-add-repository https://cli.github.com/packages
-  sudo apt update
-  sudo apt install gh
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+  apt-add-repository https://cli.github.com/packages
+  apt update
+  apt install gh
 }
 
 install_helm3() {
