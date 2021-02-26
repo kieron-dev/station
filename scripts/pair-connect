@@ -15,7 +15,10 @@ readonly SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 USAGE=$(
   cat <<EOF
-Usage: pair-connect [options]
+
+Usage: pair-connect [options] STATION_ADDRESS
+Args:
+  STATION_ADDRESS  address of station to connect to. Required. Ask your pair to run 'pssh' on their station and send you the output.
 Options:
   -a  address of station to connect to. Required. Ask your pair to run 'pssh' on their station and send you the output.
   -h  this help
@@ -33,33 +36,49 @@ connect() {
 main() {
   local station_address
   station_address=""
-
-  while getopts "ha:p:" opt; do
-    case ${opt} in
-      a)
-        station_address="$OPTARG"
-        ;;
-      h)
-        print-logo
-        echo "$USAGE"
-        exit 0
-        ;;
-      \?)
-        echo "${bold}${red}Invalid option: ${OPTARG}${normal}" 1>&2
-        print-logo
-        echo "$USAGE"
-        exit 1
-        ;;
-      :)
-        echo "${bold}${red}Invalid option: $OPTARG requires an argument${normal}" 1>&2
-        print-logo
-        echo "$USAGE"
-        exit 1
-        ;;
-    esac
+  station_port=""
+  ARGS=()
+  while [ $# -gt 0 ]; do
+    unset OPTIND
+    unset OPTARG
+    while getopts "iha:p:" opt; do
+      case ${opt} in
+        h)
+          print-logo
+          echo "$USAGE"
+          exit 0
+          ;;
+        i)
+          if [[ -L /usr/local/bin/pair-connect ]]; then
+            echo "${bold}${yellow}pair-connect already installed in /usr/local/bin!"
+            exit 1
+          fi
+          sudo ln -s "$SCRIPT_DIR/pair-connect" /usr/local/bin/pair-connect
+          exit "$?"
+          ;;
+        p)
+          station_port="$OPTARG"
+          ;;
+        \?)
+          echo "${bold}${red}Invalid option: ${OPTARG}${normal}" 1>&2
+          print-logo
+          echo "$USAGE"
+          exit 1
+          ;;
+        :)
+          echo "${bold}${red}Invalid option: $OPTARG requires an argument${normal}" 1>&2
+          print-logo
+          echo "$USAGE"
+          exit 1
+          ;;
+      esac
+    done
+    shift $((OPTIND - 1))
+    ARGS+=("$1")
+    shift
   done
-  shift $((OPTIND - 1))
 
+  station_address="${ARGS[0]}"
   if [[ -z "$station_address" ]]; then
     echo "${bold}${red}Station address is required to connect.${normal}"
     echo "${bold}${red}Please supply the address of the station that you want to connect to!${normal}"
