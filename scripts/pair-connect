@@ -26,15 +26,16 @@ EOF
 )
 
 connect() {
-  local station_address host_username
+  local station_address host_username port
   station_address="$1"
+  port="$2"
   host_username="$(echo $station_address | awk -F '@' '{print $1}')"
 
-  ssh -A -R /home/"$host_username"/.gnupg/S.gpg-agent-"$GUEST_USERNAME":$HOME/.gnupg/S.gpg-agent -p 22 "$station_address"
+  ssh -A -R /home/"$host_username"/.gnupg/S.gpg-agent-"$GUEST_USERNAME":$HOME/.gnupg/S.gpg-agent -p "$port" "$station_address"
 }
 
 main() {
-  local station_address
+  local station_address station_port
   station_address=""
   station_port=""
   ARGS=()
@@ -88,7 +89,7 @@ main() {
     exit 1
   fi
 
-  connect "$station_address"
+  connect "$station_address" "$station_port"
 }
 
 print-logo() {
