@@ -6,7 +6,7 @@ red=$(printf "\033[31m")
 yellow=$(printf "\033[33m")
 
 if ! ssh-add -L 2>&1 >/dev/null; then
-  echo "No ssh key is loaded. Please add your ssh key before running this script!"
+  echo "${bold}${red}No ssh key is loaded. Please add your ssh key before running this script!${normal}"
   exit 1
 fi
 
