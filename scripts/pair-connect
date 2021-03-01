@@ -20,7 +20,7 @@ Usage: pair-connect [options] STATION_ADDRESS
 Args:
   STATION_ADDRESS  address of station to connect to. Required. Ask your pair to run 'pssh' on their station and send you the output.
 Options:
-  -p               ssh port of the station's sshd. Optional. Default is 22. This is required if using ngrok.
+  -p               ssh port of the station\'s sshd. Optional. Default is 22. This is required if using ngrok.
   -i               install pair-connect in /usr/local/bin as a symlink
   -h               this help
 EOF
