@@ -254,6 +254,9 @@ install_misc_tools() {
   curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.8.1/kind-linux-amd64 -o "$HOME/bin/kind"
   chmod +x "$HOME/bin/kind"
 
+  echo ">>> Installing promql-cli (v0.2.1)"
+  curl -L https://github.com/nalbury/promql-cli/releases/download/v0.2.1/promql-v0.2.1-linux-amd64.tar.gz | tar xvzf - -C "$HOME/bin" promql
+  chmod +x "$HOME/bin/promql"
 }
 
 go_get() {
