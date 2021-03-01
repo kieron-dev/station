@@ -78,7 +78,7 @@ main() {
       esac
     done
     shift $((OPTIND - 1))
-    ARGS+=("$1")
+    ARGS+=("${1:-}")
     shift
   done
 
