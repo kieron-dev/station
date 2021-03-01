@@ -38,7 +38,7 @@ connect() {
 main() {
   local station_address station_port
   station_address=""
-  station_port=""
+  station_port="22"
   ARGS=()
   while [ $# -gt 0 ]; do
     unset OPTIND
