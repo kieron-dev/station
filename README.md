@@ -37,9 +37,9 @@ Running the oneliner that the station owner sent you will log you onto the machi
 
 ### Switching between the GPG sockets of the station owner and a guest
 
-Since both the station owner their pair have their GPG agent sockets forwarded there needs to be
+Since both the station owner and their pair have their GPG agent sockets forwarded, there needs to be
 a way to switch between the two sockets. This can be done using the `fix-gpg` alias defined in `eirini-home`. If you are
-the guest and you want to use gpg while your host is away you can run `fix-gpg guest` If you are the host and want to
-reacquire control you can run `fix-gpg` with no args.
+the guest and you want to use gpg while your host is away, you can run `fix-gpg guest`. If you are the host and want to
+reacquire control, you can run `fix-gpg` with no args.
 
-You can check which socket is active at any time by running `who-gpg`
+You can check which socket is active at any time by running `who-gpg`.
