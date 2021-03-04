@@ -128,21 +128,22 @@ install_nvim_extensions() {
 }
 
 install_rbenv() {
-  echo ">>> Installing Ruby with rbenv"
+  local ruby_version=2.7.2
+  echo ">>> Installing Ruby $ruby_version with rbenv"
 
   local rbenv_root
   rbenv_root="$HOME/.rbenv"
 
-  if [[ -d "$rbenv_root" ]]; then
-    return
+  if [[ ! -d "$rbenv_root" ]]; then
+    git_clone https://github.com/rbenv/rbenv.git "$rbenv_root"
+
+    mkdir -p "$rbenv_root/plugins"
+    git_clone https://github.com/rbenv/ruby-build.git "$rbenv_root/plugins/ruby-build"
   fi
 
-  git_clone https://github.com/rbenv/rbenv.git "$rbenv_root"
-
-  mkdir -p "$rbenv_root/plugins"
-  git_clone https://github.com/rbenv/ruby-build.git "$rbenv_root/plugins/ruby-build"
-
-  PATH="$rbenv_root/bin:$PATH" rbenv install 2.5.5
+  if ! "$rbenv_root/bin/rbenv" versions | grep -q "$ruby_version"; then
+    PATH="$rbenv_root/bin:$PATH" rbenv install "$ruby_version"
+  fi
 }
 
 clone_git_repos() {
