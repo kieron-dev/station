@@ -218,8 +218,11 @@ configure_dotfiles() {
     git checkout master
     git pull -r
     ./install.sh
-    GIT_DUET_CO_AUTHORED_BY=1 git duet # initialise git-duet
-    git init                           # install git-duet hooks on eirini-home
+
+    export GIT_DUET_CO_AUTHORED_BY=1
+    export GIT_DUET_GLOBAL=true
+    git duet ae ae # initialise git-duet
+    git init       # install git-duet hooks on eirini-home
   }
   popd
 }
