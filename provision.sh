@@ -239,7 +239,7 @@ install_carvel_tools() {
 
 install_npm_packages() {
   echo ">>> Installing npm packages"
-  npm install -g bash-language-server
+  npm install -g bash-language-server tldr
 }
 
 install_delta() {
