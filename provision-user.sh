@@ -31,7 +31,6 @@ main() {
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
   mkdir_home_user_bin
-  install_ibmcloud_cli
   install_gotools
   install_ohmyzsh
   install_vim_plug
@@ -60,14 +59,6 @@ install_cred_alert() {
     https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
   chmod 755 cred-alert-cli
   mv cred-alert-cli "$HOME/bin/"
-}
-
-install_ibmcloud_cli() {
-  if [[ ! $(command -v ibmcloud) ]]; then
-    echo ">>> Installing the IBM Cloud CLI"
-    curl -sL https://ibm.biz/idt-installer | bash
-    ibmcloud plugin install kubernetes-service -f
-  fi
 }
 
 install_gotools() {
