@@ -112,7 +112,9 @@ install_packages() {
     libbtrfs-dev \
     libdevmapper-dev \
     libevent-dev \
+    libmysqlclient-dev \
     libncurses5-dev \
+    libpq-dev \
     libreadline-dev \
     libssl-dev \
     libtool \
@@ -123,6 +125,8 @@ install_packages() {
     openssh-server \
     pass \
     pkg-config \
+    postgresql \
+    postgresql-contrib \
     python3 \
     python3-dev \
     python3-pip \
