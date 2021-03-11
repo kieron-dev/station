@@ -102,6 +102,7 @@ install_packages() {
     ctags \
     curl \
     direnv \
+    fd-find \
     fortune \
     g++ \
     git \
