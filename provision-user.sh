@@ -252,6 +252,10 @@ install_misc_tools() {
   echo ">>> Installing promql-cli (v0.2.1)"
   curl -L https://github.com/nalbury/promql-cli/releases/download/v0.2.1/promql-v0.2.1-linux-amd64.tar.gz | tar xvzf - -C "$HOME/bin" promql
   chmod +x "$HOME/bin/promql"
+
+  echo ">>> Installing kubeval (v0.15.0)"
+  curl -L https://github.com/instrumenta/kubeval/releases/download/0.15.0/kubeval-linux-amd64.tar.gz | tar xvzf - -C "$HOME/bin" kubeval
+  chmod +x "$HOME/bin/kubeval"
 }
 
 go_get() {
