@@ -32,6 +32,7 @@ main() {
   echo ">>> Installing everything..."
   mkdir_home_user_bin
   install_gotools
+  install_docker
   install_ohmyzsh
   install_vim_plug
   install_nvim_extensions
@@ -59,6 +60,16 @@ install_cred_alert() {
     https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
   chmod 755 cred-alert-cli
   mv cred-alert-cli "$HOME/bin/"
+}
+
+install_docker() {
+  echo ">>> Installing Docker"
+  if command -v docker; then
+    sudo apt upgrade docker-ce docker-ce-cli docker-ce-rootless-extras -y
+  else
+    curl -fsSL get.docker.com | sudo sh
+    sudo usermod -aG docker $USER
+  fi
 }
 
 install_gotools() {
