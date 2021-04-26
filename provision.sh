@@ -136,7 +136,6 @@ install_packages() {
     ripgrep \
     ruby-dev \
     rubygems \
-    shellcheck \
     socat \
     software-properties-common \
     stow \
@@ -153,6 +152,7 @@ install_snaps() {
   echo ">>> Installing the Snap packages"
   snap install shfmt
   snap install lolcat
+  snap install shellcheck --edge
 }
 
 install_kubectl() {
