@@ -182,7 +182,7 @@ install_nvim() {
   echo ">>> Installing NeoVim"
   if grep -q '^deb http://ppa.launchpad.net/neovim-ppa/unstable/ubuntu' /etc/apt/sources.list.d/*.list; then
     add-apt-repository --remove ppa:neovim-ppa/unstable -y
-    apt-get remove neovim
+    apt-get remove -y neovim
   fi
   add-apt-repository -y ppa:neovim-ppa/stable
   apt-get update
