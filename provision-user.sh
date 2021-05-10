@@ -74,7 +74,7 @@ install_docker() {
 
 install_gotools() {
   echo ">>> Installing golangci-lint"
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin/" v1.39.0
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin/" v1.40.0
 
   echo ">>> Installing gopls"
   GO111MODULE=on go_get golang.org/x/tools/gopls@latest
