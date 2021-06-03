@@ -162,6 +162,7 @@ install_kubectl() {
 
 install_golang() {
   echo ">>> Installing Golang"
+  rm -rf /usr/local/go
   mkdir -p /usr/local/go
   curl -sL "https://dl.google.com/go/go1.16.4.linux-amd64.tar.gz" | tar xz -C "/usr/local"
 }
