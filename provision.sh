@@ -188,8 +188,9 @@ install_nvim() {
 
   url="$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')"
 
-  curl -sL "$url" --output /usr/bin/nvim
-  chmod +x /usr/bin/nvim
+  curl -sL "$url" --output /tmp/nvim
+  chmod +x /tmp/nvim
+  mv /tmp/nvim /usr/bin/
 }
 
 install_gcloud_cli() {
