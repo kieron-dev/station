@@ -181,13 +181,15 @@ install_telepresence() {
 
 install_nvim() {
   echo ">>> Installing NeoVim"
-  if grep -q '^deb http://ppa.launchpad.net/neovim-ppa/unstable/ubuntu' /etc/apt/sources.list.d/*.list; then
-    add-apt-repository --remove ppa:neovim-ppa/unstable -y
+  if grep -q '^deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu' /etc/apt/sources.list.d/*.list; then
+    add-apt-repository --remove ppa:neovim-ppa/stable -y
     apt-get remove -y neovim
   fi
-  add-apt-repository -y ppa:neovim-ppa/stable
-  apt-get update
-  apt-get -y install neovim
+
+  url="$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')"
+
+  curl -sL "$url" --output /usr/bin/nvim
+  chmod +x /usr/bin/nvim
 }
 
 install_gcloud_cli() {
