@@ -157,6 +157,7 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry-incubator/eirini-ci.git"
     git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git" "" develop
     git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
+    git_clone "git@github.com:cloudfoundry-incubator/eirini-controller.git"
     git_clone "git@github.com:cloudfoundry/capi-k8s-release.git"
     git_clone "git@github.com:cloudfoundry/capi-release.git"
     git_clone "git@github.com:cloudfoundry/cf-for-k8s.git"
