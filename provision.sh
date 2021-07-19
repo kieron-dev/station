@@ -239,7 +239,7 @@ install_misc_tools() {
   rm /tmp/terraform.zip
 
   echo ">>> Installing bosh"
-  curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.2.1/bosh-cli-6.2.1-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
+  curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.4.4/bosh-cli-6.4.4-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
 
   echo ">>> Installing skaffold"
   curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && install skaffold /usr/local/bin/ && rm -f skaffold
