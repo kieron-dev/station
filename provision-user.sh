@@ -7,7 +7,7 @@ main() {
   while getopts ":lch" opt; do
     case ${opt} in
       l)
-        declare -F | awk '{ print $3 }' | grep -vE "(main|go_get|git_clone)"
+        declare -F | awk '{ print $3 }' | grep -vE "(main|go_install|git_clone)"
         exit 0
         ;;
       c)
@@ -77,25 +77,28 @@ install_gotools() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$HOME/go/bin/" v1.42.0
 
   echo ">>> Installing gopls"
-  GO111MODULE=on go_get golang.org/x/tools/gopls@latest
+  go_install golang.org/x/tools/gopls
 
   echo ">>> Installing fillstruct"
-  go_get -u github.com/davidrjenni/reftools/cmd/fillstruct
+  go_install github.com/davidrjenni/reftools/cmd/fillstruct
 
   echo ">>> Installing gomodifytags"
-  go_get -u github.com/fatih/gomodifytags
+  go_install github.com/fatih/gomodifytags
 
   echo ">>> Installing keyify"
-  go_get -u honnef.co/go/tools/cmd/keyify
+  go_install honnef.co/go/tools/cmd/keyify
 
   echo ">>> Installing goimports"
-  go_get -u golang.org/x/tools/cmd/goimports
+  go_install golang.org/x/tools/cmd/goimports
+
+  echo ">>> Installing gofumpt"
+  go_install mvdan.cc/gofumpt
 
   echo ">>> Installing gci"
-  go_get -u github.com/daixiang0/gci
+  go_install github.com/daixiang0/gci
 
   echo ">>> Installing gotags"
-  go_get -u github.com/jstemmer/gotags
+  go_install github.com/jstemmer/gotags
 }
 
 install_ohmyzsh() {
@@ -235,23 +238,17 @@ install_vim_plugins() {
 }
 
 install_misc_tools() {
-  echo ">>> Installing Gomega"
-  go_get -u "github.com/onsi/gomega"
-
   echo ">>> Installing Ginkgo"
-  go_get -u "github.com/onsi/ginkgo/ginkgo"
-
-  echo ">>> Installing Counterfeiter"
-  GO111MODULE=off go_get -u "github.com/maxbrunsfeld/counterfeiter"
+  go_install "github.com/onsi/ginkgo/ginkgo"
 
   echo ">>> Installing concourse-flake-hunter"
-  go_get -u "github.com/masters-of-cats/concourse-flake-hunter"
+  go_install "github.com/masters-of-cats/concourse-flake-hunter"
 
   echo ">>> Installing fly"
   curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o "$HOME/bin/fly" && chmod +x "$HOME/bin/fly"
 
   echo ">>> Installing flightattendant"
-  go_get -u "github.com/masters-of-cats/flightattendant"
+  go_install "github.com/masters-of-cats/flightattendant"
 
   echo ">>> Installing k9s (v0.24.15)"
   curl -L https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
@@ -269,8 +266,11 @@ install_misc_tools() {
   chmod +x "$HOME/bin/kubeval"
 }
 
-go_get() {
-  /usr/local/go/bin/go get "$@"
+go_install() {
+  local package=$1
+  local version=${2:-latest}
+
+  /usr/local/go/bin/go install $package@$version
 }
 
 init_pass_store() {
