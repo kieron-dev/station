@@ -186,7 +186,7 @@ install_nvim() {
     apt-get remove -y neovim
   fi
 
-  url="$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')"
+  url="$(curl -s https://api.github.com/repos/neovim/neovim/releases/tags/v0.5.0 | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')"
 
   curl -sL "$url" --output /tmp/nvim
   chmod +x /tmp/nvim
