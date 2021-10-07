@@ -234,7 +234,12 @@ configure_dotfiles() {
 
 install_vim_plugins() {
   echo ">>> Installing the NeoVim plugins"
-  nvim --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
+  # If we run the command below with init.vim (the default) it will fail because some lua files
+  # cannot be loaded. This is so because plug hasn't yet installed the corresponding plugins that
+  # are bringing those files (dependency loop). In order to untie the loop we do plug install/update
+  # with just the plug part of the config. Later when you run nvim it will laod and install all remaining
+  # stuff without you having to run :PlugInstall.
+  nvim -u "$HOME/.config/nvim/plug.vim" --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
 }
 
 install_misc_tools() {
