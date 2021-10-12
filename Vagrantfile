@@ -33,6 +33,23 @@ Vagrant.configure("2") do |config|
 
   end
 
+  config.vm.provider "vmware_desktop" do |vmw, override|
+    vmw.vmx["displayname"] = 'eirini-station'
+    vmw.memory = ENV.fetch('EIRINI_STATION_MEMORY', '8192').to_i
+    vmw.cpus = ENV.fetch('EIRINI_STATION_CPUS', '4').to_i
+
+    override.vm.box = "bento/ubuntu-20.04"
+
+    override.vm.synced_folder "~/.ngrok2", "/home/vagrant/.ngrok2"
+
+    override.vm.network "public_network", bridge: [
+      "en0: Wi-Fi (AirPort)",
+      "en0: Wi-Fi (Wireless)",
+    ]
+
+    override.ssh.extra_args = ["-R", "/home/vagrant/.gnupg/S.gpg-agent-host:#{home}/.gnupg/S.gpg-agent"]
+  end
+
   config.vm.provider "google" do |gcp, override|
     username = ENV['EIRINI_STATION_USERNAME']
 
