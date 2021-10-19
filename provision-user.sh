@@ -41,6 +41,7 @@ main() {
   configure_dotfiles
   clone_git_repos
   install_vim_plugins
+  install_kubectl_plugins
   install_misc_tools
   install_pure_zsh_theme
   install_tmux_plugin_manager
@@ -270,6 +271,13 @@ install_misc_tools() {
   echo ">>> Installing kubeval (v0.15.0)"
   curl -L https://github.com/instrumenta/kubeval/releases/download/0.15.0/kubeval-linux-amd64.tar.gz | tar xvzf - -C "$HOME/bin" kubeval
   chmod +x "$HOME/bin/kubeval"
+}
+
+install_kubectl_plugins() {
+  HNC_VERSION=v0.8.0
+  HNC_PLATFORM=linux_amd64
+  curl -L https://github.com/kubernetes-sigs/multi-tenancy/releases/download/hnc-${HNC_VERSION}/kubectl-hns_${HNC_PLATFORM} -o "$HOME/bin/kubectl-hns"
+  chmod +x "$HOME/bin/kubectl-hns"
 }
 
 go_install() {
