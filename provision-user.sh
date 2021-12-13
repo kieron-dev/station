@@ -257,8 +257,8 @@ install_misc_tools() {
   echo ">>> Installing flightattendant"
   go_install "github.com/masters-of-cats/flightattendant"
 
-  echo ">>> Installing k9s (v0.24.15)"
-  curl -L https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
+  echo ">>> Installing k9s (v0.25.8)"
+  curl -L https://github.com/derailed/k9s/releases/download/v0.25.8/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
 
   echo ">>> Installing kind (v0.11.1)"
   curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.11.1/kind-linux-amd64 -o "$HOME/bin/kind"
