@@ -241,7 +241,7 @@ install_vim_plugins() {
   # are bringing those files (dependency loop). In order to untie the loop we do plug install/update
   # with just the plug part of the config. Later when you run nvim it will laod and install all remaining
   # stuff without you having to run :PlugInstall.
-  nvim -u "$HOME/.config/nvim/plug.vim" --headless +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
+  nvim -u "$HOME/.config/nvim/plug.vim" --headless +PlugClean +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
 }
 
 install_misc_tools() {
