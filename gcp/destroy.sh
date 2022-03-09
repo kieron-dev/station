@@ -1,4 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-terraform destroy -var="username=$EIRINI_STATION_USERNAME"
+gcloud compute instances delete "$EIRINI_STATION_USERNAME-eirini-station" \
+  --project="cff-eirini-peace-pods" \
+  --zone="europe-west2-a"
