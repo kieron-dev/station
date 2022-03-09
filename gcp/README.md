@@ -4,6 +4,13 @@ This is a set of scripts which makes it easier to create development stations
 on GCP. The scripts only use the [`gcloud`
 CLI](https://cloud.google.com/sdk/gcloud) and don't automate provisioning.
 
+## Dependencies
+
+The scripts only need the [`gcloud` CLI](https://cloud.google.com/sdk/gcloud)
+and the `$EIRINI_STATION_USERNAME` environment variable set.
+
+## Usage
+
 To get a working station:
 
 ```
