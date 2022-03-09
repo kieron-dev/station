@@ -10,5 +10,5 @@ ip=$(
 
 ssh \
   -A \
-  -R "$HOME/.gnupg/S.gpg-agent-guest:$(gpgconf --list-dirs agent-socket)" \
+  -R "/home/${EIRINI_STATION_USERNAME}/.gnupg/S.gpg-agent-host:$(gpgconf --list-dirs agent-socket)" \
   "${EIRINI_STATION_USERNAME}@$ip"
