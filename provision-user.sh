@@ -260,8 +260,8 @@ install_misc_tools() {
   echo ">>> Installing k9s (v0.25.8)"
   curl -L https://github.com/derailed/k9s/releases/download/v0.25.8/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
 
-  echo ">>> Installing kind (v0.11.1)"
-  curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.11.1/kind-linux-amd64 -o "$HOME/bin/kind"
+  echo ">>> Installing kind (v0.12.0)"
+  curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.12.0/kind-linux-amd64 -o "$HOME/bin/kind"
   chmod +x "$HOME/bin/kind"
 
   echo ">>> Installing promql-cli (v0.2.1)"
