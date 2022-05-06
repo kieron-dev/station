@@ -247,7 +247,7 @@ install_misc_tools() {
   curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && install skaffold /usr/local/bin/ && rm -f skaffold
 
   echo ">>> Installing yq"
-  curl -sLo yq https://github.com/mikefarah/yq/releases/download/v4.6.2/yq_linux_amd64 && install yq /usr/local/bin/ && rm -f yq
+  curl -sLo yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 && install yq /usr/local/bin/ && rm -f yq
 }
 
 install_carvel_tools() {
