@@ -2,7 +2,7 @@
 set -euo pipefail
 
 description=$(
-  gcloud compute instances describe georgethebeatle-eirini-station \
+  gcloud compute instances describe "${EIRINI_STATION_USERNAME}-eirini-station" \
     --project cff-eirini-peace-pods \
     --zone="europe-west2-a"
 )
