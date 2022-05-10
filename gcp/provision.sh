@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 echo "Provisioning $EIRINI_STATION_USERNAME-eirini-station"
 scp -r ~/workspace/eirini-station/provision*.sh "$EIRINI_STATION_USERNAME@$STATION_IP:/tmp"
 ssh -A -R $HOME/.gnupg/S.gpg-agent-guest:$(gpgconf --list-dirs agent-socket) "$EIRINI_STATION_USERNAME@$STATION_IP" "sudo /tmp/provision.sh"
