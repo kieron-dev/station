@@ -3,8 +3,8 @@ set -euo pipefail
 
 ip=$(gcloud compute instances describe "${EIRINI_STATION_USERNAME}-eirini-station" \
   --project cff-eirini-peace-pods \
-  --zone="europe-west2-a" |
-  yq '.networkInterfaces[0].accessConfigs[0].natIP')
+  --zone="europe-west2-a" \
+  --format="value(networkInterfaces[0].accessConfigs[0].natIP)")
 
 echo "Provisioning $EIRINI_STATION_USERNAME-eirini-station"
 scp -r ~/workspace/eirini-station/provision*.sh "$EIRINI_STATION_USERNAME@$ip:/tmp"

@@ -1,13 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-description=$(
+info=$(
   gcloud compute instances describe "${EIRINI_STATION_USERNAME}-eirini-station" \
     --project cff-eirini-peace-pods \
-    --zone="europe-west2-a"
+    --zone="europe-west2-a" \
+    --format="value(status, networkInterfaces[0].accessConfigs[0].natIP)"
 )
-status=$(yq '.status' <<<"$description")
-ip=$(yq '.networkInterfaces[0].accessConfigs[0].natIP' <<<"$description")
+
+status=$(cut -f 1 <<<$info)
+ip=$(cut -f 2 <<<$info)
 
 if [[ "$status" != "RUNNING" ]]; then
   echo "Station is not runninng. Run 'station start' to start it"
