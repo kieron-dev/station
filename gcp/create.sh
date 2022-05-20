@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+gcloud compute resource-policies create instance-schedule "$EIRINI_STATION_USERNAME-shutdown-schedule" \
+  --description="shut down the machine every day at 19:00 UTC" \
+  --project="cff-eirini-peace-pods" \
+  --region="europe-west2" \
+  --vm-stop-schedule="0 19 * * *"
 gcloud compute instances create "$EIRINI_STATION_USERNAME-eirini-station" \
   --project="cff-eirini-peace-pods" \
   --image-project="ubuntu-os-cloud" \
@@ -8,4 +13,5 @@ gcloud compute instances create "$EIRINI_STATION_USERNAME-eirini-station" \
   --machine-type="e2-highcpu-8" \
   --boot-disk-size="100GB" \
   --boot-disk-type="pd-ssd" \
-  --zone="europe-west2-a"
+  --zone="europe-west2-a" \
+  --resource-policies="$EIRINI_STATION_USERNAME-shutdown-schedule"
