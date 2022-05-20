@@ -162,8 +162,8 @@ clone_git_repos() {
     git_clone "git@github.com:cloudfoundry-incubator/eirini-release.git" "" develop
     git_clone "git@github.com:cloudfoundry-incubator/eirini.git"
     git_clone "git@github.com:cloudfoundry-incubator/eirini-controller.git"
-    git_clone "git@github.com:cloudfoundry/cf-k8s-api.git"
-    git_clone "git@github.com:cloudfoundry/cf-k8s-controllers.git"
+    git_clone "git@github.com:cloudfoundry/korifi.git"
+    git_clone "git@github.com:cloudfoundry/korifi-ci.git"
     git_clone "git@github.com:cloudfoundry/cli.git"
     add_remote cli ef "git@github.com:eirini-forks/cli.git"
     git_clone "git@github.com:eirini-forks/eirini-station.git"
