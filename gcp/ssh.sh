@@ -12,4 +12,5 @@ fi
 ssh \
   -A \
   -R "/home/${EIRINI_STATION_USERNAME}/.gnupg/S.gpg-agent-host:$(gpgconf --list-dirs agent-socket)" \
+  -o "UserKnownHostsFile=/dev/null" \
   "${EIRINI_STATION_USERNAME}@$STATION_IP"
