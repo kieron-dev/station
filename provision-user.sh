@@ -246,7 +246,7 @@ install_vim_plugins() {
 
 install_misc_tools() {
   echo ">>> Installing Ginkgo"
-  go_install "github.com/onsi/ginkgo/ginkgo"
+  go_install "github.com/onsi/ginkgo/v2/ginkgo"
 
   echo ">>> Installing concourse-flake-hunter"
   go_install "github.com/masters-of-cats/concourse-flake-hunter"
