@@ -134,7 +134,7 @@ install_nvim_extensions() {
 }
 
 install_rbenv() {
-  local ruby_version=2.7.2
+  local ruby_version=3.1.2
   echo ">>> Installing Ruby $ruby_version with rbenv"
 
   local rbenv_root
@@ -148,6 +148,13 @@ install_rbenv() {
   fi
 
   if ! "$rbenv_root/bin/rbenv" versions | grep -q "$ruby_version"; then
+    supported_versions=$("$rbenv_root/bin/rbenv" install -L)
+    if ! echo "$supported_versions" | grep "$ruby_version"; then
+      echo Ruby version "$ruby_version" is not supported by rbenv for the current distribution
+      echo Supported versions are:
+      echo "$supported_versions"
+      exit 1
+    fi
     PATH="$rbenv_root/bin:$PATH" rbenv install "$ruby_version"
   fi
 }

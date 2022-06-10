@@ -43,7 +43,6 @@ main() {
   install_snaps
   install_kubectl
   install_nodejs
-  install_telepresence
   install_nvim
   install_npm_packages
   install_gcloud_cli
@@ -97,15 +96,17 @@ install_packages() {
     apt-transport-https \
     autoconf \
     automake \
+    bison \
     build-essential \
     ca-certificates \
     cmake \
     cowsay \
-    ctags \
     curl \
     direnv \
+    exuberant-ctags \
     fd-find \
     fortune \
+    fuse \
     g++ \
     git \
     gnupg-agent \
@@ -113,15 +114,21 @@ install_packages() {
     jq \
     lastpass-cli \
     libbtrfs-dev \
+    libdb-dev \
     libdevmapper-dev \
     libevent-dev \
+    libffi-dev \
+    libgdbm-dev \
+    libgdbm6 \
     libmysqlclient-dev \
     libncurses5-dev \
     libpq-dev \
     libreadline-dev \
+    libreadline6-dev \
     libssl-dev \
     libtool \
     libtool-bin \
+    libyaml-dev \
     net-tools \
     netcat-openbsd \
     ntp \
@@ -146,6 +153,7 @@ install_packages() {
     unzip \
     wget \
     xsel \
+    zlib1g-dev \
     zsh
 }
 
@@ -176,12 +184,6 @@ install_nodejs() {
   echo ">>> Installing NodeJS"
   curl -sL https://deb.nodesource.com/setup_14.x | bash -
   apt-get -y install nodejs
-}
-
-install_telepresence() {
-  echo ">>> Installing Telepresence"
-  curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.deb.sh | bash
-  apt-get -y install telepresence
 }
 
 install_nvim() {
@@ -278,8 +280,8 @@ install_delta() {
 
 install_github_cli() {
   echo ">>> Installing Github CLI"
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-  apt-add-repository https://cli.github.com/packages
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
   apt update
   apt install gh
 }
