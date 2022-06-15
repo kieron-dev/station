@@ -205,7 +205,7 @@ install_gcloud_cli() {
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list
   curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
   apt-get update
-  apt-get -y install google-cloud-sdk
+  apt-get -y install google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin
 }
 
 install_cf_cli() {
