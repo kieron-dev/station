@@ -146,6 +146,7 @@ install_packages() {
     rubygems \
     socat \
     software-properties-common \
+    sshfs \
     stow \
     tig \
     tmux \

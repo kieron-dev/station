@@ -280,6 +280,16 @@ install_misc_tools() {
   chmod +x "$HOME/bin/kubeval"
 }
 
+install_telepresence() {
+  local tmpdir
+  tmpdir="$(mktemp -d)"
+  trap 'rm -rf $tmpdir' RETURN
+
+  git clone --branch 0.109 https://github.com/telepresenceio/telepresence.git "$tmpdir"
+
+  PREFIX="$HOME" "$tmpdir/install.sh"
+}
+
 install_kubectl_plugins() {
   HNC_VERSION=v0.8.0
   HNC_PLATFORM=linux_amd64
