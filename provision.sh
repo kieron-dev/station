@@ -39,6 +39,7 @@ main() {
   add_swap
   add_sshd_config
   setup_locale
+  setup_inotify_limit
   install_packages
   install_snaps
   install_kubectl
@@ -87,6 +88,15 @@ setup_locale() {
   apt-get -y install locales
   locale-gen en_US.UTF-8
   update-locale LANG=en_US.UTF-8
+}
+
+setup_inotify_limit() {
+  echo ">>> Setting up inotify limit"
+
+  echo "fs.inotify.max_user_watches = 524288" >/etc/sysctl.d/50-inotify-limit.conf
+  echo "fs.inotify.max_user_instances = 512" >>/etc/sysctl.d/50-inotify-limit.conf
+
+  service procps force-reload
 }
 
 install_packages() {
