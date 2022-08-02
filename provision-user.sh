@@ -211,7 +211,8 @@ git_clone() {
   branch=${3:-""}
 
   if [ -z "$path" ]; then
-    name=$(echo "$url" | sed 's/\.git//g' | cut -d / -f 2)
+    name=${url%%.git}
+    name=${name##*/}
     path="$HOME/workspace/$name"
   fi
 
