@@ -54,7 +54,6 @@ main() {
   install_delta
   install_github_cli
   install_helm3
-  install_vault
 }
 
 disable_ipv6() {
@@ -226,13 +225,6 @@ install_cf_cli() {
   apt-get update
   apt-get -y remove cf7-cli
   apt-get -y install cf8-cli
-}
-
-install_vault() {
-  curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-  apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-  apt-get update
-  apt-get -y install vault
 }
 
 install_misc_tools() {
