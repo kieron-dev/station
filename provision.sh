@@ -115,7 +115,7 @@ install_packages() {
     exuberant-ctags \
     fd-find \
     fortune \
-    fuse \
+    libfuse2 \
     g++ \
     git \
     gnupg-agent \
