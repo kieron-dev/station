@@ -273,7 +273,7 @@ install_misc_tools() {
   go_install "github.com/eirini-forks/concourse-flake-hunter"
 
   echo ">>> Installing fly"
-  curl -sL "https://jetson.eirini.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o "$HOME/bin/fly" && chmod +x "$HOME/bin/fly"
+  curl -sL "https://ci.korifi.cf-app.com/api/v1/cli?arch=amd64&platform=linux" -o "$HOME/bin/fly" && chmod +x "$HOME/bin/fly"
 
   echo ">>> Installing flightattendant"
   go_install "github.com/masters-of-cats/flightattendant"
