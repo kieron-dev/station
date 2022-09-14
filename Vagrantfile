@@ -49,27 +49,6 @@ Vagrant.configure("2") do |config|
 
     override.ssh.extra_args = ["-R", "/home/vagrant/.gnupg/S.gpg-agent-host:#{home}/.gnupg/S.gpg-agent"]
   end
-
-  config.vm.provider "google" do |gcp, override|
-    username = ENV['EIRINI_STATION_USERNAME']
-
-    override.vm.box = "google/gce"
-
-    config.vm.synced_folder ".", "/vagrant", disabled: true
-
-    gcp.google_project_id = 'cff-eirini-peace-pods'
-    gcp.google_json_key_location = ENV['EIRINI_STATION_GCP_JSON_KEY_PATH']
-    gcp.image_family = 'ubuntu-2004-lts'
-    gcp.machine_type = 'n1-standard-8'
-    gcp.disk_size = 100
-    gcp.disk_type = "pd-ssd"
-    gcp.zone = 'europe-west2-a'
-    gcp.name = "#{username}-eirini-station"
-
-    override.ssh.username = username
-    override.ssh.keys_only = false
-    override.ssh.extra_args = ["-R", "/home/#{username}/.gnupg/S.gpg-agent-host:#{home}/.gnupg/S.gpg-agent"]
-  end
 end
 
 class SetHostTimezonePlugin < Vagrant.plugin('2')
