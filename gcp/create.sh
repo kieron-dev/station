@@ -8,6 +8,7 @@ gcloud compute resource-policies create instance-schedule "$EIRINI_STATION_USERN
   --vm-stop-schedule="0 19 * * *"
 gcloud compute instances create "$EIRINI_STATION_USERNAME-eirini-station" \
   --project="cf-on-k8s-wg" \
+  --metadata=ssh-keys="$EIRINI_STATION_USERNAME:$(ssh-add -L)" \
   --image-project="ubuntu-os-cloud" \
   --image-family="ubuntu-2204-lts" \
   --machine-type="e2-custom-8-16384" \
