@@ -100,6 +100,9 @@ install_gotools() {
 
   echo ">>> Installing gotags"
   go_install github.com/jstemmer/gotags
+
+  echo ">>> Installing setup-envtest"
+  go_install sigs.k8s.io/controller-runtime/tools/setup-envtest
 }
 
 install_ohmyzsh() {
