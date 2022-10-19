@@ -54,6 +54,7 @@ main() {
   install_delta
   install_github_cli
   install_helm3
+  install_vault
 }
 
 disable_ipv6() {
@@ -225,6 +226,13 @@ install_cf_cli() {
   apt-get update
   apt-get -y remove cf7-cli
   apt-get -y install cf8-cli
+}
+
+install_vault() {
+  echo ">>> Installing Vault"
+  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg >/dev/null
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+  apt update && apt install vault
 }
 
 install_misc_tools() {

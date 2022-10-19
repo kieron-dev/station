@@ -122,18 +122,6 @@ install_zsh_autosuggestions() {
   git_clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
-install_vault_fork() {
-  echo ">>> Installing vault fork"
-  git_clone https://github.com/eirini-forks/vault "" autocomplete-kv-v2
-
-  pushd "$HOME/workspace/vault"
-  {
-    make
-    mv bin/vault "$HOME/bin"
-  }
-  popd
-}
-
 install_vim_plug() {
   echo ">>> Installing vim-plug"
   curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
