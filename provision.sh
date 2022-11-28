@@ -41,6 +41,7 @@ main() {
   setup_locale
   setup_inotify_limit
   install_packages
+  install_aws_cli
   install_snaps
   install_kubectl
   install_nodejs
@@ -226,6 +227,13 @@ install_cf_cli() {
   apt-get update
   apt-get -y remove cf7-cli
   apt-get -y install cf8-cli
+}
+
+install_aws_cli() {
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  ./aws/install --update
+  rm -rf aws awscliv2.zip
 }
 
 install_vault() {
