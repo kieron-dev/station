@@ -17,18 +17,18 @@ main() {
         ;;
       c)
         shift $((OPTIND - 1))
-        for command in $@; do
+        for command in "$@"; do
           $command
         done
         exit $?
         ;;
       h)
-        echo $USAGE
+        echo "$USAGE"
         exit 0
         ;;
       \?)
         echo "Invalid option: $OPTARG" 1>&2
-        echo $USAGE
+        echo "$USAGE"
         exit 1
         ;;
     esac
@@ -45,17 +45,14 @@ main() {
   install_snaps
   install_kubectl
   install_nodejs
-  install_nvim
   install_npm_packages
   install_gcloud_cli
   install_golang
-  install_cf_cli
-  install_misc_tools
-  install_carvel_tools
-  install_delta
+  install_cf_tools
   install_github_cli
+  install_misc_tools
   install_helm3
-  install_vault
+  install_hashicorp_tools
 }
 
 disable_ipv6() {
@@ -171,62 +168,48 @@ install_packages() {
 
 install_snaps() {
   echo ">>> Installing the Snap packages"
+  rm -f /usr/bin/nvim
+  snap install nvim --classic
   snap install shfmt
   snap install lolcat
   snap install shellcheck --edge
 }
 
 install_kubectl() {
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-  rm -f kubectl
-
-  curl -sL https://github.com/vmware-tanzu/buildkit-cli-for-kubectl/releases/download/v0.1.5/linux-v0.1.5.tgz |
-    tar -C /usr/local/bin -xzf -
+  rm -f /usr/local/bin/kubectl
+  curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" >/etc/apt/sources.list.d/kubernetes.list
+  apt-get update
+  apt-get install -y kubectl
 }
 
 install_golang() {
   echo ">>> Installing Golang"
   rm -rf /usr/local/go
-  mkdir -p /usr/local/go
-  curl -sL "https://dl.google.com/go/go1.19.4.linux-amd64.tar.gz" | tar xz -C "/usr/local"
+  add-apt-repository -y ppa:longsleep/golang-backports
+  apt-get -y install golang-go
 }
 
 install_nodejs() {
   echo ">>> Installing NodeJS"
-  curl -sL https://deb.nodesource.com/setup_14.x | bash -
+  curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
   apt-get -y install nodejs
-}
-
-install_nvim() {
-  echo ">>> Installing NeoVim"
-  if grep -q '^deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu' /etc/apt/sources.list.d/*.list; then
-    add-apt-repository --remove ppa:neovim-ppa/stable -y
-    apt-get remove -y neovim
-  fi
-
-  url="$(curl -s https://api.github.com/repos/neovim/neovim/releases/tags/v0.8.1 | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')"
-
-  curl -sL "$url" --output /tmp/nvim
-  chmod +x /tmp/nvim
-  mv /tmp/nvim /usr/bin/
 }
 
 install_gcloud_cli() {
   echo ">>> Installing the Google Cloud CLI"
-  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list
-  curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" >/etc/apt/sources.list.d/google-cloud-sdk.list
+  wget -qO- https://packages.cloud.google.com/apt/doc/apt-key.gpg >/usr/share/keyrings/cloud.google.gpg
   apt-get update
   apt-get -y install google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin
 }
 
-install_cf_cli() {
+install_cf_tools() {
   echo ">>> Installing the Cloud Foundry CLI"
-  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
-  echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+  wget -qO- https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key >/etc/apt/trusted.gpg.d/cloudfoundry.asc
+  echo "deb https://packages.cloudfoundry.org/debian stable main" >/etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
-  apt-get -y remove cf7-cli
-  apt-get -y install cf8-cli
+  apt-get -y install cf8-cli bosh
 }
 
 install_aws_cli() {
@@ -236,50 +219,26 @@ install_aws_cli() {
   rm -rf aws awscliv2.zip
 }
 
-install_vault() {
-  echo ">>> Installing Vault"
-  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg >/dev/null
-  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-  apt update && apt install vault
+install_hashicorp_tools() {
+  echo ">>> Installing Vault and Terraform"
+  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor >/usr/share/keyrings/hashicorp-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" >/etc/apt/sources.list.d/hashicorp.list
+  apt-get update
+  apt-get install -y vault terraform
 }
 
 install_misc_tools() {
   echo ">>> Installing ngrok"
   curl -sL "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz" | tar xz -C /usr/bin
 
-  echo ">>> Installing goml"
-  curl -sL "https://github.com/JulzDiverse/goml/releases/download/v0.7.0/goml-linux-amd64" -o /usr/bin/goml && chmod +x /usr/bin/goml
-
-  echo ">>> Installing spruce"
-  curl -sL https://github.com/geofffranks/spruce/releases/download/v1.25.3/spruce-linux-amd64 -o /usr/bin/spruce && chmod +x /usr/bin/spruce
-
-  echo ">>> Installing aviator"
-  curl -sL "https://github.com/JulzDiverse/aviator/releases/download/v1.6.0/aviator-linux-amd64" -o /usr/bin/aviator && chmod +x /usr/bin/aviator
-
   echo ">>> Installing git-duet"
-  curl -sL "https://github.com/git-duet/git-duet/releases/download/0.7.0/linux_amd64.tar.gz" | tar xvz -C /usr/bin
-
-  echo ">>> Installing terraform"
-  curl -sL "https://releases.hashicorp.com/terraform/1.3.5/terraform_1.3.5_linux_amd64.zip" -o /tmp/terraform.zip
-  unzip -ou /tmp/terraform.zip -d /usr/bin
-  rm /tmp/terraform.zip
-
-  echo ">>> Installing bosh"
-  curl -sL "https://github.com/cloudfoundry/bosh-cli/releases/download/v6.4.4/bosh-cli-6.4.4-linux-amd64" -o /usr/bin/bosh && chmod +x /usr/bin/bosh
-
-  echo ">>> Installing skaffold"
-  curl -sLo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && install skaffold /usr/local/bin/ && rm -f skaffold
+  curl -sSfL "https://github.com/git-duet/git-duet/releases/latest/download/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 
   echo ">>> Installing yq"
-  curl -sLo yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 && install yq /usr/local/bin/ && rm -f yq
-}
+  curl -sSfL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" >/usr/local/bin/yq && chmod a+x /usr/local/bin/yq
 
-install_carvel_tools() {
   echo ">>> Installing the carvel tools"
   curl -sL https://carvel.dev/install.sh | bash
-
-  echo ">>> Installing pack"
-  curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.24.0/pack-v0.24.0-linux.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
 }
 
 install_npm_packages() {
@@ -287,30 +246,20 @@ install_npm_packages() {
   npm install -g bash-language-server tldr
 }
 
-install_delta() {
-  echo ">>> Installing delta"
-  set -x
-  curl -sL https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-unknown-linux-musl.tar.gz -o /tmp/delta.tar.gz
-  tar xzvf /tmp/delta.tar.gz
-  mv delta-0.1.1-x86_64-unknown-linux-musl/delta /usr/bin
-  rm -fr delta-0.1.1-x86_64-unknown-linux-musl /tmp/delta.tar.gz
-  set +x
-}
-
 install_github_cli() {
   echo ">>> Installing Github CLI"
-  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
-  apt update
-  apt install gh
+  wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg >/usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" >/etc/apt/sources.list.d/github-cli.list
+  apt-get update
+  apt-get install -y gh
 }
 
 install_helm3() {
-  echo ">>> Installing Helm3"
-  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 &&
-    chmod 700 get_helm.sh &&
-    ./get_helm.sh &&
-    rm -f ./get_helm.sh
+  echo ">>> Installing Helm 3"
+  wget -qO- https://baltocdn.com/helm/signing.asc | gpg --dearmor >/usr/share/keyrings/helm.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" >/etc/apt/sources.list.d/helm-stable-debian.list
+  apt-get update
+  apt-get install -y helm
 }
 
-main $@
+main "$@"
