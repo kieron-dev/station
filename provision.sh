@@ -170,7 +170,6 @@ install_snaps() {
   echo ">>> Installing the Snap packages"
   rm -f /usr/bin/nvim
   snap install nvim --classic
-  snap install shfmt
   snap install lolcat
   snap install shellcheck --edge
 }
@@ -239,6 +238,9 @@ install_misc_tools() {
 
   echo ">>> Installing the carvel tools"
   curl -sL https://carvel.dev/install.sh | bash
+
+  echo ">>> Installing shfmt"
+  go install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
 
 install_npm_packages() {
