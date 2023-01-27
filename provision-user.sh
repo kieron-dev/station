@@ -203,7 +203,7 @@ install_misc_tools() {
   chmod +x "$HOME/bin/fly"
 
   echo ">>> Installing k9s"
-  curl -LsSf https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_x86_64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
+  curl -LsSf https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar xvzf - -C "$HOME/bin" k9s
 
   echo ">>> Installing kind"
   curl -LsSf https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64 -o "$HOME/bin/kind"
@@ -232,4 +232,4 @@ switch_to_zsh() {
   sudo chsh -s /bin/zsh "$(whoami)"
 }
 
-main $@
+main "$@"
