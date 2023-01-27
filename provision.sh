@@ -35,7 +35,6 @@ main() {
   done
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
-  disable_ipv6
   add_swap
   add_sshd_config
   setup_locale
@@ -54,12 +53,6 @@ main() {
   install_misc_tools
   install_helm3
   install_hashicorp_tools
-}
-
-disable_ipv6() {
-  echo ">>> Disabling IPv6"
-  sysctl -w net.ipv6.conf.all.disable_ipv6=1
-  sysctl -w net.ipv6.conf.default.disable_ipv6=1
 }
 
 add_swap() {
