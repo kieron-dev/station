@@ -44,6 +44,7 @@ main() {
   install_aws_cli
   install_snaps
   install_kubectl
+  install_neovim
   install_nodejs
   install_npm_packages
   install_gcloud_cli
@@ -169,7 +170,6 @@ install_packages() {
 install_snaps() {
   echo ">>> Installing the Snap packages"
   rm -f /usr/bin/nvim
-  snap install nvim --classic
   snap install lolcat
   snap install shellcheck --edge
 }
@@ -180,6 +180,12 @@ install_kubectl() {
   echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" >/etc/apt/sources.list.d/kubernetes.list
   apt-get update
   apt-get install -y kubectl
+}
+
+install_neovim() {
+  echo ">>> Installing Neovim"
+  curl -sSfLo /usr/local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+  chmod a+x /usr/local/bin/nvim
 }
 
 install_golang() {
