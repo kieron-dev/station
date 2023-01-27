@@ -227,9 +227,6 @@ install_hashicorp_tools() {
 }
 
 install_misc_tools() {
-  echo ">>> Installing ngrok"
-  curl -sL "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz" | tar xz -C /usr/bin
-
   echo ">>> Installing git-duet"
   curl -sSfL "https://github.com/git-duet/git-duet/releases/latest/download/linux_amd64.tar.gz" | tar xvz -C /usr/bin
 
