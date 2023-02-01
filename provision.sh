@@ -134,6 +134,7 @@ install_packages() {
     net-tools \
     netcat-openbsd \
     ntp \
+    openconnect \
     openssh-server \
     pass \
     pkg-config \
