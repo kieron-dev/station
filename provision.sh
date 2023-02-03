@@ -209,7 +209,10 @@ install_cf_tools() {
   wget -qO- https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key >/etc/apt/trusted.gpg.d/cloudfoundry.asc
   echo "deb https://packages.cloudfoundry.org/debian stable main" >/etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
-  apt-get -y install cf8-cli bosh
+  apt-get -y install cf8-cli
+
+  url="$(curl -sSfL https://api.github.com/repos/cloudfoundry/bosh-cli/releases/latest | jq -r '.assets[]|select(.name|match("linux-amd64")).browser_download_url')"
+  curl -sSfLo /usr/bin/bosh "$url" && chmod +x /usr/bin/bosh
 }
 
 install_aws_cli() {
