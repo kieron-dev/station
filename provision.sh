@@ -239,9 +239,6 @@ install_misc_tools() {
 
   echo ">>> Installing the carvel tools"
   curl -sL https://carvel.dev/install.sh | bash
-
-  echo ">>> Installing shfmt"
-  go install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
 
 install_npm_packages() {

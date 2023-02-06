@@ -208,6 +208,9 @@ install_misc_tools() {
   echo ">>> Installing kind"
   curl -LsSf https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64 -o "$HOME/bin/kind"
   chmod +x "$HOME/bin/kind"
+
+  echo ">>> Installing shfmt"
+  go install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
 
 install_pure_zsh_theme() {
