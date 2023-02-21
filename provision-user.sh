@@ -34,12 +34,11 @@ main() {
   install_gotools
   install_docker
   install_ohmyzsh
-  install_vim_plug
+  uninstall_vim_plug
   install_nvim_extensions
   install_cred_alert
   configure_dotfiles
   clone_git_repos
-  install_vim_plugins
   install_misc_tools
   install_pure_zsh_theme
   install_tmux_plugin_manager
@@ -101,10 +100,9 @@ install_zsh_autosuggestions() {
   git_clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 }
 
-install_vim_plug() {
-  echo ">>> Installing vim-plug"
-  curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+uninstall_vim_plug() {
+  # remove it now we've switched to lazy plugin manager
+  rm -f "$HOME/.local/share/nvim/site/autoload/plug.vim"
 }
 
 install_nvim_extensions() {
@@ -179,16 +177,6 @@ configure_dotfiles() {
     git init       # install git-duet hooks on eirini-home
   }
   popd
-}
-
-install_vim_plugins() {
-  echo ">>> Installing the NeoVim plugins"
-  # If we run the command below with init.vim (the default) it will fail because some lua files
-  # cannot be loaded. This is so because plug hasn't yet installed the corresponding plugins that
-  # are bringing those files (dependency loop). In order to untie the loop we do plug install/update
-  # with just the plug part of the config. Later when you run nvim it will laod and install all remaining
-  # stuff without you having to run :PlugInstall.
-  nvim -u "$HOME/.config/nvim/plug.vim" --headless +PlugClean +PlugInstall +PlugUpdate +UpdateRemotePlugins +qall
 }
 
 install_misc_tools() {
