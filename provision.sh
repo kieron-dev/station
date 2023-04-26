@@ -45,7 +45,7 @@ main() {
   install_kubectl
   install_neovim
   install_nodejs
-  install_npm_packages
+  install_language_servers
   install_gcloud_cli
   install_golang
   install_cf_tools
@@ -192,7 +192,7 @@ install_golang() {
 
 install_nodejs() {
   echo ">>> Installing NodeJS"
-  curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
+  curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
   apt-get -y install nodejs
 }
 
@@ -241,9 +241,10 @@ install_misc_tools() {
   curl -sL https://carvel.dev/install.sh | bash
 }
 
-install_npm_packages() {
-  echo ">>> Installing npm packages"
-  npm install -g bash-language-server tldr
+install_language_servers() {
+  echo ">>> Installing language servers"
+  snap install bash-language-server
+  snap install typescript-language-server
 }
 
 install_github_cli() {

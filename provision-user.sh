@@ -31,6 +31,7 @@ main() {
   shift $((OPTIND - 1))
   echo ">>> Installing everything..."
   mkdir_home_user_bin
+  setup_non_root_npm_install_global
   install_gotools
   install_docker
   install_ohmyzsh
@@ -48,6 +49,11 @@ main() {
 
 mkdir_home_user_bin() {
   mkdir -p "$HOME/bin"
+}
+
+setup_non_root_npm_install_global() {
+  mkdir -p "${HOME}/.npm-packages"
+  npm config set prefix "${HOME}/.npm-packages"
 }
 
 install_cred_alert() {
@@ -107,7 +113,7 @@ uninstall_vim_plug() {
 
 install_nvim_extensions() {
   echo ">>> Installing the NeoVim extensions"
-  sudo npm install -g neovim
+  npm install -g neovim
   pip3 install --upgrade pip
   pip3 install --upgrade neovim
   gem install neovim --user-install
