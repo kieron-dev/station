@@ -13,6 +13,7 @@ for attempt in $(seq 10); do
   if ssh \
     -A \
     -o "UserKnownHostsFile=/dev/null" \
+    "$@" \
     "${EIRINI_STATION_USERNAME}@${STATION_IP}"; then
     exit 0
   fi
