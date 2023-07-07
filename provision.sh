@@ -169,11 +169,9 @@ install_snaps() {
 }
 
 install_kubectl() {
-  rm -f /usr/local/bin/kubectl
-  curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" >/etc/apt/sources.list.d/kubernetes.list
-  apt-get update
-  apt-get install -y kubectl
+  echo ">>> Installing kubectl"
+  snap remove google-cloud-sdk
+  snap install kubectl --classic
 }
 
 install_neovim() {
@@ -198,14 +196,12 @@ install_nodejs() {
 
 install_gcloud_cli() {
   echo ">>> Installing the Google Cloud CLI"
-  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" >/etc/apt/sources.list.d/google-cloud-sdk.list
-  wget -qO- https://packages.cloud.google.com/apt/doc/apt-key.gpg >/usr/share/keyrings/cloud.google.gpg
-  apt-get update
-  apt-get -y install google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin
+  snap remove google-cloud-sdk
+  snap install google-cloud-cli --classic
 }
 
 install_cf_tools() {
-  echo ">>> Installing the Cloud Foundry CLI"
+  echo ">>> Installing the Cloud Foundky CLI"
   wget -qO- https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key >/etc/apt/trusted.gpg.d/cloudfoundry.asc
   echo "deb https://packages.cloudfoundry.org/debian stable main" >/etc/apt/sources.list.d/cloudfoundry-cli.list
   apt-get update
@@ -243,7 +239,7 @@ install_misc_tools() {
 
 install_language_servers() {
   echo ">>> Installing language servers"
-  snap install bash-language-server
+  snap install bash-language-server --classic
   snap install typescript-language-server
 }
 
