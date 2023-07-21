@@ -179,6 +179,7 @@ install_neovim() {
   curl -sSfLo nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
   mv nvim /usr/local/bin/nvim
   chmod a+x /usr/local/bin/nvim
+  apt-get -y install python3-neovim
 }
 
 install_golang() {
@@ -190,8 +191,8 @@ install_golang() {
 
 install_nodejs() {
   echo ">>> Installing NodeJS"
-  curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-  apt-get -y install nodejs
+  curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+  apt-get -y install nodejs-legacy
 }
 
 install_gcloud_cli() {

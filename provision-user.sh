@@ -114,8 +114,6 @@ uninstall_vim_plug() {
 install_nvim_extensions() {
   echo ">>> Installing the NeoVim extensions"
   npm install -g neovim
-  pip3 install --upgrade pip
-  pip3 install --upgrade neovim
   gem install neovim --user-install
 }
 
@@ -125,8 +123,9 @@ clone_git_repos() {
   mkdir -p "$HOME/workspace"
   pushd "$HOME/workspace"
   {
-    git_clone "git@github.com:kieron-dev/station.git"
-    git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/tap-recipe.git"
+    git_clone "git@github.com:kieron-dev/station.git" "" main
+    git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/tap-recipe.git" "$HOME/workspace/tap-sandbox/tap-recipe" main
+    git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/environment-controller.git" "$HOME/workspace/tap-sandbox/environment-controller" main
   }
 
   popd
@@ -166,11 +165,11 @@ configure_dotfiles() {
   ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
 
   git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
-  git_clone "git@github.com:kieron-dev/station-home.git"
+  git_clone "git@github.com:kieron-dev/station-home.git" "" "main"
 
   pushd "$HOME/workspace/station-home"
   {
-    git checkout master
+    git checkout main
     git pull -r
     ./install.sh
 
