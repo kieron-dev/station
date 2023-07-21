@@ -125,10 +125,8 @@ clone_git_repos() {
   mkdir -p "$HOME/workspace"
   pushd "$HOME/workspace"
   {
-    git_clone "git@github.com:cloudfoundry/korifi.git"
-    git_clone "git@github.com:cloudfoundry/korifi-ci.git"
-    git_clone "git@github.com:cloudfoundry/cf-k8s-secrets.git"
-    git_clone "git@github.com:eirini-forks/eirini-station.git"
+    git_clone "git@github.com:kieron-dev/station.git"
+    git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/tap-recipe.git"
   }
 
   popd
@@ -168,10 +166,9 @@ configure_dotfiles() {
   ssh-keyscan -t rsa github.com >>"$HOME/.ssh/known_hosts"
 
   git_clone "git@github.com:pivotal-cf/git-hooks-core.git"
-  git_clone "git@github.com:cloudfoundry/eirini-private-config.git"
-  git_clone "git@github.com:eirini-forks/eirini-home.git"
+  git_clone "git@github.com:kieron-dev/station-home.git"
 
-  pushd "$HOME/workspace/eirini-home"
+  pushd "$HOME/workspace/station-home"
   {
     git checkout master
     git pull -r
