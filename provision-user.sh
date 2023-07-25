@@ -35,6 +35,7 @@ main() {
   install_gotools
   install_docker
   install_ohmyzsh
+  install_tanzu_cli
   uninstall_vim_plug
   install_nvim_extensions
   install_cred_alert
@@ -218,6 +219,18 @@ install_pure_zsh_theme() {
     git pull -r
   }
   popd
+}
+
+install_tanzu_cli() {
+  echo ">>> Installing tanzu CLI"
+  curl -sSfLo tanzu.tar.gz "https://github.com/vmware-tanzu/tanzu-cli/releases/latest/download/tanzu-cli-linux-amd64.tar.gz"
+  f="$(tar tf tanzu.tar.gz | grep tanzu-cli)"
+  tar -xvf tanzu.tar.gz "$f"
+  install "$f" "$HOME/bin/tanzu"
+  rm -rf tanzu.tar.gz "$(dirname $f)"
+  tanzu init
+  tanzu config set env.TANZU_CLI_ADDITIONAL_PLUGIN_DISCOVERY_IMAGES_TEST_ONLY harbor-repo.vmware.com/tanzu_cli_stage/plugins/plugin-inventory:latest
+  tanzu plugin install --group vmware-tap/default:1.6.0-rc.1
 }
 
 switch_to_zsh() {
