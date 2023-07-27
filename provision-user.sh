@@ -127,6 +127,8 @@ clone_git_repos() {
     git_clone "git@github.com:kieron-dev/station.git" "" main
     git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/tap-recipe.git" "$HOME/workspace/tap-sandbox/tap-recipe" main
     git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/environment-controller.git" "$HOME/workspace/tap-sandbox/environment-controller" main
+    git_clone "git@github.com:vmware-tanzu-learning/penguin.git" "$HOME/workspace/tap-sandbox/penguin" main
+    git_clone "git@github.com:vmware-tanzu-labs/educates-training-platform.git" "$HOME/workspace/tap-sandbox/educates-training-platform" develop
   }
 
   popd
@@ -228,9 +230,9 @@ install_tanzu_cli() {
   tar -xvf tanzu.tar.gz "$f"
   install "$f" "$HOME/bin/tanzu"
   rm -rf tanzu.tar.gz "$(dirname $f)"
-  tanzu init
-  tanzu config set env.TANZU_CLI_ADDITIONAL_PLUGIN_DISCOVERY_IMAGES_TEST_ONLY harbor-repo.vmware.com/tanzu_cli_stage/plugins/plugin-inventory:latest
-  tanzu plugin install --group vmware-tap/default:1.6.0-rc.1
+  echo y | $HOME/bin/tanzu init
+  $HOME/bin/tanzu config set env.TANZU_CLI_ADDITIONAL_PLUGIN_DISCOVERY_IMAGES_TEST_ONLY harbor-repo.vmware.com/tanzu_cli_stage/plugins/plugin-inventory:latest
+  $HOME/bin/tanzu plugin install --group vmware-tap/default:1.6.0-rc.1
 }
 
 switch_to_zsh() {
