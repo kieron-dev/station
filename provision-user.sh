@@ -126,6 +126,7 @@ clone_git_repos() {
   {
     git_clone "git@github.com:kieron-dev/station.git" "" main
     git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/tap-recipe.git" "$HOME/workspace/tap-sandbox/tap-recipe" main
+    git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/sandbox-educates" "$HOME/workspace/tap-sandbox/sandbox-educates" main
     git_clone "git@gitlab.eng.vmware.com:tap-public-cloud/tap-sandbox/environment-controller.git" "$HOME/workspace/tap-sandbox/environment-controller" main
     git_clone "git@github.com:vmware-tanzu-learning/penguin.git" "$HOME/workspace/tap-sandbox/penguin" main
     git_clone "git@github.com:vmware-tanzu-labs/educates-training-platform.git" "$HOME/workspace/tap-sandbox/educates-training-platform" develop
