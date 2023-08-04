@@ -3,11 +3,11 @@ set -euo pipefail
 
 gcloud compute resource-policies create instance-schedule "$EIRINI_STATION_USERNAME-shutdown-schedule" \
   --description="shut down the machine every day at 19:00 UTC" \
-  --project="cf-on-k8s-wg" \
+  --project="tap-sandbox-dev" \
   --region="europe-west2" \
   --vm-stop-schedule="0 19 * * *"
 gcloud compute instances create "$EIRINI_STATION_USERNAME-eirini-station" \
-  --project="cf-on-k8s-wg" \
+  --project="tap-sandbox-dev" \
   --metadata=ssh-keys="$EIRINI_STATION_USERNAME:$(ssh-add -L)" \
   --image-project="ubuntu-os-cloud" \
   --image-family="ubuntu-2204-lts" \

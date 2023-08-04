@@ -8,8 +8,8 @@ echo "Backing up history file into: '$STATION_HISTORY_BACKUP'"
 scp -r "$EIRINI_STATION_USERNAME@$STATION_IP:~/.zsh_history" "$STATION_HISTORY_BACKUP" || true
 
 gcloud compute instances delete "$EIRINI_STATION_USERNAME-eirini-station" \
-  --project="cf-on-k8s-wg" \
+  --project="tap-sandbox-dev" \
   --zone="europe-west2-a"
 gcloud compute resource-policies delete "$EIRINI_STATION_USERNAME-shutdown-schedule" \
-  --project="cf-on-k8s-wg" \
+  --project="tap-sandbox-dev" \
   --region="europe-west2"

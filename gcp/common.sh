@@ -1,6 +1,6 @@
 info="$(
   gcloud compute instances describe "${EIRINI_STATION_USERNAME}-eirini-station" \
-    --project cf-on-k8s-wg \
+    --project tap-sandbox-dev \
     --zone="europe-west2-a" \
     --format="value(status, networkInterfaces[0].accessConfigs[0].natIP, name)"
 )"
