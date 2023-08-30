@@ -36,6 +36,7 @@ main() {
   install_docker
   install_ohmyzsh
   install_tanzu_cli
+  install_sheepctl
   uninstall_vim_plug
   install_nvim_extensions
   install_cred_alert
@@ -234,6 +235,13 @@ install_tanzu_cli() {
   echo y | $HOME/bin/tanzu init
   $HOME/bin/tanzu config set env.TANZU_CLI_ADDITIONAL_PLUGIN_DISCOVERY_IMAGES_TEST_ONLY harbor-repo.vmware.com/tanzu_cli_stage/plugins/plugin-inventory:latest
   $HOME/bin/tanzu plugin install --group vmware-tap/default:1.6.0-rc.1
+}
+
+install_sheepctl() {
+  echo ">>> Installing sheepctl"
+  curl -sSfL "https://storage.googleapis.com/sheepctl/latest/sheepctl-linux-amd64.tar.gz" |
+    tar xzf - sheepctl
+  install sheepctl "$HOME/bin"
 }
 
 switch_to_zsh() {
