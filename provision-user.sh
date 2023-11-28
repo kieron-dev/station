@@ -232,10 +232,9 @@ install_tanzu_cli() {
   f="$(tar tf tanzu.tar.gz | grep tanzu-cli)"
   tar -xvf tanzu.tar.gz "$f"
   install "$f" "$HOME/bin/tanzu"
-  rm -rf tanzu.tar.gz "$(dirname $f)"
-  echo y | $HOME/bin/tanzu init
-  $HOME/bin/tanzu config set env.TANZU_CLI_ADDITIONAL_PLUGIN_DISCOVERY_IMAGES_TEST_ONLY harbor-repo.vmware.com/tanzu_cli_stage/plugins/plugin-inventory:latest
-  $HOME/bin/tanzu plugin install --group vmware-tap/default:1.6.0-rc.1
+  rm -rf tanzu.tar.gz "$(dirname "$f")"
+  yes | "$HOME/bin/tanzu" init
+  "$HOME/bin/tanzu" plugin install --group vmware-tap/default:v1.7.0
 }
 
 install_sheepctl() {
